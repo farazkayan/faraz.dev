@@ -1,0 +1,128 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - navigation "Main navigation" [ref=f3e5]:
+      - generic [ref=f3e6]:
+        - link "Faraz Kayan Haque — Home" [ref=f3e7] [cursor=pointer]:
+          - /url: "#home"
+          - generic [ref=f3e8]: FKH
+        - generic [ref=f3e9]:
+          - link "Home" [ref=f3e10] [cursor=pointer]:
+            - /url: "#home"
+          - link "About" [active] [ref=f3e12] [cursor=pointer]:
+            - /url: "#about"
+          - link "Education" [ref=f3e13] [cursor=pointer]:
+            - /url: "#education"
+          - link "Skills" [ref=f3e14] [cursor=pointer]:
+            - /url: "#skills"
+          - link "Projects" [ref=f3e15] [cursor=pointer]:
+            - /url: "#projects"
+          - link "Homelab" [ref=f3e16] [cursor=pointer]:
+            - /url: "#homelab"
+          - link "Hobbies" [ref=f3e17] [cursor=pointer]:
+            - /url: "#hobbies"
+          - link "Contact" [ref=f3e18] [cursor=pointer]:
+            - /url: "#contact"
+  - main [ref=f3e19]:
+    - generic [ref=f3e21]:
+      - generic [ref=f3e22]:
+        - generic [ref=f3e23]: Student & Builder
+        - heading "Faraz Kayan Haque" [level=1] [ref=f3e24]
+        - paragraph [ref=f3e25]: I build things I wish existed.
+        - paragraph [ref=f3e26]: Always learning. Always building. I don't know what I'll build next — and that's the fun part.
+      - generic [ref=f3e27]: Currently
+      - generic [ref=f3e32]:
+        - generic [ref=f3e33]:
+          - heading "Learning" [level=3] [ref=f3e34]
+          - paragraph [ref=f3e35]: Python
+        - generic [ref=f3e36]:
+          - heading "Exploring" [level=3] [ref=f3e37]
+          - paragraph [ref=f3e38]: AI-assisted development · databases · product building
+      - generic [ref=f3e40]:
+        - paragraph [ref=f3e41]: How I Build
+        - tablist "Building workflow" [ref=f3e42]:
+          - tab "Idea" [selected] [ref=f3e43]:
+            - generic [ref=f3e45]: IDEA
+          - generic [ref=f3e47]: →
+          - tab "Plan" [ref=f3e48]:
+            - generic [ref=f3e50]: PLAN
+          - generic [ref=f3e51]: →
+          - tab "Build" [ref=f3e52]:
+            - generic [ref=f3e54]: BUILD
+          - generic [ref=f3e55]: →
+          - tab "Debug" [ref=f3e56]:
+            - generic [ref=f3e58]: DEBUG
+          - generic [ref=f3e59]: →
+          - tab "Learn" [ref=f3e60]:
+            - generic [ref=f3e62]: LEARN
+          - generic [ref=f3e63]: →
+          - tab "Improve" [ref=f3e64]:
+            - generic [ref=f3e66]: IMPROVE
+        - tabpanel "Idea" [ref=f3e67]:
+          - paragraph [ref=f3e68]: Something should exist.
+    - generic [ref=f3e70]:
+      - generic [ref=f3e71]:
+        - generic [ref=f3e72]: About
+        - heading "About" [level=2] [ref=f3e73]
+      - generic [ref=f3e74]:
+        - generic [ref=f3e75]:
+          - paragraph [ref=f3e76]: I got into technology because something about it just clicked. There's a particular satisfaction in taking separate pieces — code, services, hardware — and making them work together as a coherent whole.
+          - paragraph [ref=f3e77]: I tend to build things when I notice something that doesn't exist yet, or when an existing tool doesn't quite work the way I need it to. "I build things I wish existed" isn't a tagline — it's genuinely how most of my projects start.
+        - generic [ref=f3e78]:
+          - paragraph [ref=f3e79]: I'm still a student, currently learning Python in school. Most of what I know beyond that has come from actually building projects and investigating why they break.
+          - paragraph [ref=f3e80]: AI is a big part of how I work — tools like Kilo Code, Roo Code, Claude, Gemini, Aider, NVIDIA NIM, and LM Studio are in my daily workflow. But I don't just accept what they generate. When something fails, I dig in to understand the problem first, then use AI to help pinpoint and fix it. Learning why something broke means I'm less likely to hit the same wall twice.
+        - generic [ref=f3e81]:
+          - paragraph [ref=f3e82]: Building projects has pulled me into areas beyond just writing code. I've spent a lot of time with Linux servers, Docker, self-hosting, databases, media storage, and networking — not because I set out to learn "DevOps," but because the things I wanted to build required it.
+          - paragraph [ref=f3e83]: "I run a few things at home: CasaOS for a dashboard, Immich for photos, Jellyfin for media, and a couple of Minecraft servers for friends. It's taught me that the best way to learn infrastructure is to actually run it."
+        - generic [ref=f3e84]:
+          - paragraph [ref=f3e85]: Things I end up messing with
+          - generic [ref=f3e86]:
+            - generic [ref=f3e87]: Building
+            - generic [ref=f3e88]: Learning
+            - generic [ref=f3e89]: Self-hosting
+            - generic [ref=f3e90]: AI-assisted development
+            - generic [ref=f3e91]: Photography
+            - generic [ref=f3e92]: Experimenting
+        - paragraph [ref=f3e94]:
+          - text: When I'm not building, I'm probably taking photos of cats, playing Stray for the third time, or convincing friends to go on a random side quest. The dedicated
+          - link "Hobbies" [ref=f3e95] [cursor=pointer]:
+            - /url: "#hobbies"
+          - text: section has more on that.
+    - generic [ref=f3e98]:
+      - generic [ref=f3e99]: Education
+      - heading "Education" [level=2] [ref=f3e100]
+      - paragraph [ref=f3e101]: Placeholder for Education section
+    - generic [ref=f3e104]:
+      - generic [ref=f3e105]: Skills
+      - heading "Skills" [level=2] [ref=f3e106]
+      - paragraph [ref=f3e107]: Placeholder for Skills section
+    - generic [ref=f3e110]:
+      - generic [ref=f3e111]: Projects
+      - heading "Projects" [level=2] [ref=f3e112]
+      - paragraph [ref=f3e113]: Placeholder for Projects section
+    - generic [ref=f3e116]:
+      - generic [ref=f3e117]: Homelab
+      - heading "Homelab" [level=2] [ref=f3e118]
+      - paragraph [ref=f3e119]: Placeholder for Homelab section
+    - generic [ref=f3e122]:
+      - generic [ref=f3e123]: Hobbies
+      - heading "Hobbies" [level=2] [ref=f3e124]
+      - paragraph [ref=f3e125]: Placeholder for Hobbies section
+    - generic [ref=f3e128]:
+      - generic [ref=f3e129]: Contact
+      - heading "Contact" [level=2] [ref=f3e130]
+      - paragraph [ref=f3e131]: Placeholder for Contact section
+  - contentinfo [ref=f3e132]:
+    - generic [ref=f3e134]:
+      - generic [ref=f3e135]:
+        - generic [ref=f3e136]: Faraz Kayan Haque
+        - paragraph [ref=f3e137]: Student & Builder
+      - generic [ref=f3e138]:
+        - link "GitHub" [ref=f3e139] [cursor=pointer]:
+          - /url: https://github.com/farazkayan
+        - link "LinkedIn" [ref=f3e142] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/faraz-kayan-haque-6b70253aa/
+        - link "Instagram" [ref=f3e145] [cursor=pointer]:
+          - /url: https://www.instagram.com/faraz_kayan_haque/
+        - link "Facebook" [ref=f3e149] [cursor=pointer]:
+          - /url: https://www.facebook.com/faraz.kayan.haque/
+      - paragraph [ref=f3e152]: © 2026 Faraz Kayan Haque. Built with care.

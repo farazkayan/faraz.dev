@@ -1,0 +1,241 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - navigation "Main navigation" [ref=e5]:
+      - generic [ref=e6]:
+        - link "Faraz Kayan Haque — Home" [ref=e7] [cursor=pointer]:
+          - /url: "#home"
+          - generic [ref=e8]: FKH
+        - generic [ref=e9]:
+          - link "Home" [ref=e10] [cursor=pointer]:
+            - /url: "#home"
+          - link "About" [ref=e12] [cursor=pointer]:
+            - /url: "#about"
+          - link "Education" [ref=e13] [cursor=pointer]:
+            - /url: "#education"
+          - link "Skills" [ref=e14] [cursor=pointer]:
+            - /url: "#skills"
+          - link "Projects" [ref=e15] [cursor=pointer]:
+            - /url: "#projects"
+          - link "Homelab" [ref=e16] [cursor=pointer]:
+            - /url: "#homelab"
+          - link "Hobbies" [ref=e17] [cursor=pointer]:
+            - /url: "#hobbies"
+          - link "Contact" [ref=e18] [cursor=pointer]:
+            - /url: "#contact"
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Student & Builder
+        - heading "Faraz Kayan Haque" [level=1] [ref=e24]
+        - paragraph [ref=e25]: I build things I wish existed.
+        - paragraph [ref=e26]: Always learning. Always building. I don't know what I'll build next — and that's the fun part.
+      - generic [ref=e27]: Currently
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - heading "Learning" [level=3] [ref=e34]
+          - paragraph [ref=e35]: Python
+        - generic [ref=e36]:
+          - heading "Exploring" [level=3] [ref=e37]
+          - paragraph [ref=e38]: AI-assisted development · databases · product building
+      - generic [ref=e40]:
+        - paragraph [ref=e41]: How I Build
+        - tablist "Building workflow" [ref=e42]:
+          - tab "Idea" [selected] [ref=e43]:
+            - generic [ref=e45]: IDEA
+          - generic [ref=e47]: →
+          - tab "Plan" [ref=e48]:
+            - generic [ref=e50]: PLAN
+          - generic [ref=e51]: →
+          - tab "Build" [ref=e52]:
+            - generic [ref=e54]: BUILD
+          - generic [ref=e55]: →
+          - tab "Debug" [ref=e56]:
+            - generic [ref=e58]: DEBUG
+          - generic [ref=e59]: →
+          - tab "Learn" [ref=e60]:
+            - generic [ref=e62]: LEARN
+          - generic [ref=e63]: →
+          - tab "Improve" [ref=e64]:
+            - generic [ref=e66]: IMPROVE
+        - tabpanel "Idea" [ref=e67]:
+          - paragraph [ref=e68]: Something should exist.
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: About
+        - heading "About" [level=2] [ref=e73]
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - paragraph [ref=e76]: I got into technology because something about it just clicked. There's a particular satisfaction in taking separate pieces — code, services, hardware — and making them work together as a coherent whole.
+          - paragraph [ref=e77]: I tend to build things when I notice something that doesn't exist yet, or when an existing tool doesn't quite work the way I need it to. "I build things I wish existed" isn't a tagline — it's genuinely how most of my projects start.
+        - generic [ref=e78]:
+          - paragraph [ref=e79]: I'm still a student, currently learning Python in school. Most of what I know beyond that has come from actually building projects and investigating why they break.
+          - paragraph [ref=e80]: AI is a big part of how I work — tools like Kilo Code, Roo Code, Claude, Gemini, Aider, NVIDIA NIM, and LM Studio are in my daily workflow. But I don't just accept what they generate. When something fails, I dig in to understand the problem first, then use AI to help pinpoint and fix it. Learning why something broke means I'm less likely to hit the same wall twice.
+        - generic [ref=e81]:
+          - paragraph [ref=e82]: Building projects has pulled me into areas beyond just writing code. I've spent a lot of time with Linux servers, Docker, self-hosting, databases, media storage, and networking — not because I set out to learn "DevOps," but because the things I wanted to build required it.
+          - paragraph [ref=e83]: "I run a few things at home: CasaOS for a dashboard, Immich for photos, Jellyfin for media, and a couple of Minecraft servers for friends. It's taught me that the best way to learn infrastructure is to actually run it."
+        - generic [ref=e84]:
+          - paragraph [ref=e85]: Things I end up messing with
+          - generic [ref=e86]:
+            - generic [ref=e87]: Building
+            - generic [ref=e88]: Learning
+            - generic [ref=e89]: Self-hosting
+            - generic [ref=e90]: AI-assisted development
+            - generic [ref=e91]: Photography
+            - generic [ref=e92]: Experimenting
+        - paragraph [ref=e94]:
+          - text: When I'm not building, I'm probably taking photos of cats, playing Stray for the third time, or convincing friends to go on a random side quest. The dedicated
+          - link "Hobbies" [ref=e95] [cursor=pointer]:
+            - /url: "#hobbies"
+          - text: section has more on that.
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]: Projects
+        - heading "Projects" [level=2] [ref=e100]
+        - paragraph [ref=e101]: Things I built because I wanted them to exist.
+      - generic [ref=e102]:
+        - article [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - generic [ref=e106]: Featured
+              - heading "Avero" [level=3] [ref=e107]
+            - generic [ref=e108]:
+              - button "Explore" [ref=e109]
+              - link "View Avero" [ref=e112] [cursor=pointer]:
+                - /url: https://withavero.pages.dev
+          - paragraph [ref=e117]: Avero is a private shared-memory journal designed around preserving meaningful moments with people who matter. Memories shouldn't just disappear into a camera roll or a chat history — Avero lets people capture and preserve them together.
+          - generic [ref=e118]:
+            - generic [ref=e119]: Public
+            - generic [ref=e123]: Web
+        - article [ref=e126]:
+          - generic [ref=e127]:
+            - heading "Nexus" [level=3] [ref=e129]
+            - link "View on GitHub" [ref=e130] [cursor=pointer]:
+              - /url: https://github.com/farazkayan/nexus-workflow-manager
+          - paragraph [ref=e135]: Nexus is a Windows workflow launcher. It exists because this didn't exist, I needed it, and I wanted to build something that would make my life faster. It turns repetitive multi-step workflows into single actions.
+          - generic [ref=e136]:
+            - paragraph [ref=e137]: What I worked with
+            - paragraph [ref=e138]:
+              - generic [ref=e139]: Python · PySide6
+              - generic [ref=e140]: Windows · Git/GitHub
+              - generic [ref=e141]: AI-assisted development
+          - generic [ref=e142]:
+            - generic [ref=e143]: Open Source
+            - generic [ref=e146]: Windows
+            - generic [ref=e149]: Personal Tool
+        - paragraph [ref=e153]: Both projects were built with a lot of AI help, a lot of debugging, and a lot of figuring things out along the way.
+    - generic [ref=e155]:
+      - generic [ref=e156]:
+        - generic [ref=e157]: Skills
+        - heading "Things I've worked with" [level=2] [ref=e158]
+        - paragraph [ref=e159]: Technologies I've used while building projects. Some extensively, some experimentally. Python I'm learning in school.
+      - generic [ref=e160]:
+        - generic [ref=e162]:
+          - generic [ref=e163]: Languages
+          - generic [ref=e164]:
+            - button "PythonLearning" [ref=e165]
+            - button "TypeScriptUsed in Avero" [ref=e166]
+            - button "SQLUsed in Avero" [ref=e167]
+        - generic [ref=e169]:
+          - generic [ref=e170]: Frontend
+          - generic [ref=e171]:
+            - button "ReactUsed in Avero" [ref=e172]
+            - button "ViteUsed in Avero" [ref=e173]
+            - button "Tailwind CSSUsed regularly" [ref=e174]
+            - button "React RouterUsed in Avero" [ref=e175]
+            - button "LeafletUsed in Avero" [ref=e176]
+            - button "React LeafletUsed in Avero" [ref=e177]
+        - generic [ref=e179]:
+          - generic [ref=e180]: Backend & Data
+          - generic [ref=e181]:
+            - button "SupabaseUsed in Avero" [ref=e182]
+            - button "PostgreSQLUsed in Avero" [ref=e183]
+            - button "Supabase Edge FunctionsUsed in Avero" [ref=e184]
+            - button "DenoUsed in Avero" [ref=e185]
+        - generic [ref=e187]:
+          - generic [ref=e188]: Infrastructure
+          - generic [ref=e189]:
+            - button "Cloudflare PagesUsed in Avero" [ref=e190]
+            - button "Cloudflare WorkersUsed in Avero" [ref=e191]
+            - button "Backblaze B2Used in Avero" [ref=e192]
+        - generic [ref=e194]:
+          - generic [ref=e195]: Tools
+          - generic [ref=e196]:
+            - button "GitUsed regularly" [ref=e197]
+            - button "GitHubUsed regularly" [ref=e198]
+            - button "PlaywrightUsed in Avero" [ref=e199]
+            - button "ESLintUsed regularly" [ref=e200]
+            - button "WranglerUsed in Avero" [ref=e201]
+        - generic [ref=e203]:
+          - generic [ref=e204]: AI & Development
+          - generic [ref=e205]:
+            - button "Kilo CodeUsed regularly" [ref=e206]
+            - button "Roo CodeUsed regularly" [ref=e207]
+            - button "ClaudeUsed regularly" [ref=e208]
+            - button "GeminiExploring" [ref=e209]
+            - button "AiderUsed in Avero" [ref=e210]
+            - button "NVIDIA NIMExploring" [ref=e211]
+            - button "LM StudioExploring" [ref=e212]
+        - paragraph [ref=e214]: No proficiency bars, no percentages — just things I've actually used while building and learning.
+    - generic [ref=e216]:
+      - generic [ref=e217]:
+        - generic [ref=e218]: Homelab
+        - heading "Homelab" [level=2] [ref=e219]
+        - paragraph [ref=e220]: I like taking old hardware, putting it to work, and seeing what I can make it do.
+      - generic [ref=e221]:
+        - generic [ref=e223]:
+          - generic [ref=e224]: Services & Projects
+          - generic [ref=e225]:
+            - button "JellyfinRunning" [ref=e226]
+            - button "Minecraft / PaperMCRunning" [ref=e227]
+            - button "ImmichRunning" [ref=e228]
+            - button "CasaOSRunning" [ref=e229]
+            - button "TailscaleRunning" [ref=e230]
+            - button "Sunshine / MoonlightExperimenting" [ref=e231]
+        - generic [ref=e233]:
+          - generic [ref=e234]: Infrastructure & Things I've Messed With
+          - generic [ref=e235]:
+            - button "Ubuntu / LinuxComfortable" [ref=e236]
+            - button "NetworkingExploring" [ref=e237]
+            - button "Self-hostingComfortable" [ref=e238]
+            - button "Remote AccessComfortable" [ref=e239]
+            - button "CloudflareUsed in Avero" [ref=e240]
+        - paragraph [ref=e242]: I mostly do this because it's fun to see something running on hardware that would've otherwise been sitting around.
+    - generic [ref=e244]:
+      - generic [ref=e245]:
+        - generic [ref=e246]: Education
+        - heading "Education" [level=2] [ref=e247]
+      - generic [ref=e248]:
+        - article [ref=e249]:
+          - time [ref=e250]: 2024 — Present
+          - generic [ref=e251]:
+            - img "Mastermind English Medium School logo" [ref=e252]
+            - heading "Mastermind English Medium School" [level=3] [ref=e253]
+          - generic [ref=e254]: Current
+        - article [ref=e255]:
+          - time [ref=e256]: 2015 — 2024
+          - generic [ref=e257]:
+            - img "Yale International School logo" [ref=e258]
+            - heading "Yale International School" [level=3] [ref=e259]
+    - generic [ref=e262]:
+      - generic [ref=e263]: Hobbies
+      - heading "Hobbies" [level=2] [ref=e264]
+      - paragraph [ref=e265]: Placeholder for Hobbies section
+    - generic [ref=e268]:
+      - generic [ref=e269]: Contact
+      - heading "Contact" [level=2] [ref=e270]
+      - paragraph [ref=e271]: Placeholder for Contact section
+  - contentinfo [ref=e272]:
+    - generic [ref=e274]:
+      - generic [ref=e275]:
+        - generic [ref=e276]: Faraz Kayan Haque
+        - paragraph [ref=e277]: Student & Builder
+      - generic [ref=e278]:
+        - link "GitHub" [ref=e279] [cursor=pointer]:
+          - /url: https://github.com/farazkayan
+        - link "LinkedIn" [ref=e282] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/faraz-kayan-haque-6b70253aa/
+        - link "Instagram" [ref=e285] [cursor=pointer]:
+          - /url: https://www.instagram.com/faraz_kayan_haque/
+        - link "Facebook" [ref=e289] [cursor=pointer]:
+          - /url: https://www.facebook.com/faraz.kayan.haque/
+      - paragraph [ref=e292]: © 2026 Faraz Kayan Haque. Built with care.
