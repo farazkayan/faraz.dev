@@ -1,48 +1,101 @@
+import { Navigation } from './components/Navigation'
+import { Section, SectionHeader } from './components/Section'
+import { Footer } from './components/Footer'
+import { useActiveSection } from './hooks/useActiveSection'
+
+const SECTION_IDS: string[] = [
+  'home',
+  'about',
+  'education',
+  'skills',
+  'projects',
+  'homelab',
+  'hobbies',
+  'contact',
+]
+
 function App() {
+  const activeSection = useActiveSection(SECTION_IDS)
+
   return (
-    <main className="min-h-screen">
-      <div className="container py-16 md:py-24">
-        <header className="mb-12 md:mb-16 animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-balance">
-            Faraz Kayan Haque
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl">
-            Student & Builder
-          </p>
-        </header>
+    <div className="min-h-screen flex flex-col">
+      <Navigation activeSection={activeSection} />
 
-        <section className="space-y-8 md:space-y-12 animate-slide-up" style={{ animationDelay: '100ms' }}>
-          <div className="rounded-xl border border-border p-6 md:p-8 bg-bg-elevated">
-            <h2 className="text-xl md:text-2xl font-semibold mb-4">
-              Development Foundation Ready
-            </h2>
-            <p className="text-text-muted">
-              Vite + React + TypeScript + Tailwind CSS v4 initialized successfully.
-              Dark-mode-only foundation with Inter + JetBrains Mono typography established.
-            </p>
-          </div>
+      <main className="flex-1 pt-16" id="main-content">
+        <Section id="home">
+          <SectionHeader
+            id="home-heading"
+            title="Faraz Kayan Haque"
+            description="Student & Builder"
+          />
+        </Section>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-xl border border-border p-6 md:p-8 bg-bg-elevated">
-              <h3 className="text-lg font-semibold mb-2">Stack</h3>
-              <ul className="space-y-1 text-text-muted font-mono text-sm">
-                <li>React 19 + TypeScript</li>
-                <li>Vite 6</li>
-                <li>Tailwind CSS v4</li>
-              </ul>
-            </div>
-            <div className="rounded-xl border border-border p-6 md:p-8 bg-bg-elevated">
-              <h3 className="text-lg font-semibold mb-2">Design Tokens</h3>
-              <ul className="space-y-1 text-text-muted font-mono text-sm">
-                <li>Matte dark base (#0a0a0b)</li>
-                <li>Purple accent (placeholder)</li>
-                <li>Inter + JetBrains Mono</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
+        <Section id="about">
+          <SectionHeader
+            id="about-heading"
+            label="About"
+            title="About"
+            description="Placeholder for About section"
+          />
+        </Section>
+
+        <Section id="education">
+          <SectionHeader
+            id="education-heading"
+            label="Education"
+            title="Education"
+            description="Placeholder for Education section"
+          />
+        </Section>
+
+        <Section id="skills">
+          <SectionHeader
+            id="skills-heading"
+            label="Skills"
+            title="Skills"
+            description="Placeholder for Skills section"
+          />
+        </Section>
+
+        <Section id="projects">
+          <SectionHeader
+            id="projects-heading"
+            label="Projects"
+            title="Projects"
+            description="Placeholder for Projects section"
+          />
+        </Section>
+
+        <Section id="homelab">
+          <SectionHeader
+            id="homelab-heading"
+            label="Homelab"
+            title="Homelab"
+            description="Placeholder for Homelab section"
+          />
+        </Section>
+
+        <Section id="hobbies">
+          <SectionHeader
+            id="hobbies-heading"
+            label="Hobbies"
+            title="Hobbies"
+            description="Placeholder for Hobbies section"
+          />
+        </Section>
+
+        <Section id="contact">
+          <SectionHeader
+            id="contact-heading"
+            label="Contact"
+            title="Contact"
+            description="Placeholder for Contact section"
+          />
+        </Section>
+      </main>
+
+      <Footer />
+    </div>
   )
 }
 
