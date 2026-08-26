@@ -2,6 +2,7 @@ import { Navigation } from './components/Navigation'
 import { Section, SectionHeader } from './components/Section'
 import { Footer } from './components/Footer'
 import { useActiveSection } from './hooks/useActiveSection'
+import { Home } from './sections/Home'
 
 const SECTION_IDS: string[] = [
   'home',
@@ -22,13 +23,7 @@ function App() {
       <Navigation activeSection={activeSection} />
 
       <main className="flex-1 pt-16" id="main-content">
-        <Section id="home">
-          <SectionHeader
-            id="home-heading"
-            title="Faraz Kayan Haque"
-            description="Student & Builder"
-          />
-        </Section>
+        <Home />
 
         <Section id="about">
           <SectionHeader

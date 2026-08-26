@@ -1,0 +1,104 @@
+- generic [ref=f4e3]:
+  - banner [ref=f4e4]:
+    - navigation "Main navigation" [ref=f4e5]:
+      - generic [ref=f4e6]:
+        - link "Faraz Kayan Haque — Home" [ref=f4e7] [cursor=pointer]:
+          - /url: "#home"
+          - generic [ref=f4e8]: FKH
+        - generic [ref=f4e9]:
+          - link "Home" [ref=f4e10] [cursor=pointer]:
+            - /url: "#home"
+          - link "About" [ref=f4e12] [cursor=pointer]:
+            - /url: "#about"
+          - link "Education" [ref=f4e13] [cursor=pointer]:
+            - /url: "#education"
+          - link "Skills" [ref=f4e14] [cursor=pointer]:
+            - /url: "#skills"
+          - link "Projects" [ref=f4e15] [cursor=pointer]:
+            - /url: "#projects"
+          - link "Homelab" [ref=f4e16] [cursor=pointer]:
+            - /url: "#homelab"
+          - link "Hobbies" [ref=f4e17] [cursor=pointer]:
+            - /url: "#hobbies"
+          - link "Contact" [ref=f4e18] [cursor=pointer]:
+            - /url: "#contact"
+  - main [ref=f4e19]:
+    - generic [ref=f4e21]:
+      - generic [ref=f4e22]:
+        - generic [ref=f4e23]: Student & Builder
+        - heading "Faraz Kayan Haque" [level=1] [ref=f4e24]
+        - paragraph [ref=f4e25]: I build things I wish existed.
+        - paragraph [ref=f4e26]: Always learning. Always building. I don't know what I'll build next — and that's the fun part.
+      - generic [ref=f4e27]: Currently
+      - generic [ref=f4e32]:
+        - generic [ref=f4e33]:
+          - heading "Learning" [level=3] [ref=f4e34]
+          - paragraph [ref=f4e35]: Python
+        - generic [ref=f4e36]:
+          - heading "Exploring" [level=3] [ref=f4e37]
+          - paragraph [ref=f4e38]: AI-assisted development · databases · product building
+      - generic [ref=f4e40]:
+        - paragraph [ref=f4e41]: How I Build
+        - tablist "Building workflow" [ref=f4e42]:
+          - tab "Idea" [selected] [ref=f4e43]:
+            - generic [ref=f4e45]: IDEA
+          - generic [ref=f4e47]: →
+          - tab "Plan" [ref=f4e48]:
+            - generic [ref=f4e50]: PLAN
+          - generic [ref=f4e51]: →
+          - tab "Build" [ref=f4e52]:
+            - generic [ref=f4e54]: BUILD
+          - generic [ref=f4e55]: →
+          - tab "Debug" [ref=f4e56]:
+            - generic [ref=f4e58]: DEBUG
+          - generic [ref=f4e59]: →
+          - tab "Learn" [ref=f4e60]:
+            - generic [ref=f4e62]: LEARN
+          - generic [ref=f4e63]: →
+          - tab "Improve" [ref=f4e64]:
+            - generic [ref=f4e66]: IMPROVE
+        - tabpanel "Idea" [ref=f4e67]:
+          - paragraph [ref=f4e68]: Something should exist.
+    - generic [ref=f4e71]:
+      - generic [ref=f4e72]: About
+      - heading "About" [level=2] [ref=f4e73]
+      - paragraph [ref=f4e74]: Placeholder for About section
+    - generic [ref=f4e77]:
+      - generic [ref=f4e78]: Education
+      - heading "Education" [level=2] [ref=f4e79]
+      - paragraph [ref=f4e80]: Placeholder for Education section
+    - generic [ref=f4e83]:
+      - generic [ref=f4e84]: Skills
+      - heading "Skills" [level=2] [ref=f4e85]
+      - paragraph [ref=f4e86]: Placeholder for Skills section
+    - generic [ref=f4e89]:
+      - generic [ref=f4e90]: Projects
+      - heading "Projects" [level=2] [ref=f4e91]
+      - paragraph [ref=f4e92]: Placeholder for Projects section
+    - generic [ref=f4e95]:
+      - generic [ref=f4e96]: Homelab
+      - heading "Homelab" [level=2] [ref=f4e97]
+      - paragraph [ref=f4e98]: Placeholder for Homelab section
+    - generic [ref=f4e101]:
+      - generic [ref=f4e102]: Hobbies
+      - heading "Hobbies" [level=2] [ref=f4e103]
+      - paragraph [ref=f4e104]: Placeholder for Hobbies section
+    - generic [ref=f4e107]:
+      - generic [ref=f4e108]: Contact
+      - heading "Contact" [level=2] [ref=f4e109]
+      - paragraph [ref=f4e110]: Placeholder for Contact section
+  - contentinfo [ref=f4e111]:
+    - generic [ref=f4e113]:
+      - generic [ref=f4e114]:
+        - generic [ref=f4e115]: Faraz Kayan Haque
+        - paragraph [ref=f4e116]: Student & Builder
+      - generic [ref=f4e117]:
+        - link "GitHub" [ref=f4e118] [cursor=pointer]:
+          - /url: https://github.com/farazkayan
+        - link "LinkedIn" [ref=f4e121] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/faraz-kayan-haque-6b70253aa/
+        - link "Instagram" [ref=f4e124] [cursor=pointer]:
+          - /url: https://www.instagram.com/faraz_kayan_haque/
+        - link "Facebook" [ref=f4e128] [cursor=pointer]:
+          - /url: https://www.facebook.com/faraz.kayan.haque/
+      - paragraph [ref=f4e131]: © 2026 Faraz Kayan Haque. Built with care.
