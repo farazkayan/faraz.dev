@@ -10,8 +10,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Education', href: '#education' },
-  { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Homelab', href: '#homelab' },
   { label: 'Hobbies', href: '#hobbies' },
   { label: 'Contact', href: '#contact' },
@@ -23,7 +23,7 @@ export function Navigation({ activeSection }: { activeSection: string }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 24)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -47,7 +47,7 @@ export function Navigation({ activeSection }: { activeSection: string }) {
         'fixed top-0 left-0 right-0 z-50',
         'transition-all duration-300 ease-out',
         isScrolled
-          ? 'bg-bg/80 backdrop-blur-sm border-b border-border'
+          ? 'bg-bg/90 backdrop-blur-md border-b border-border'
           : 'bg-transparent'
       )}
       role="banner"
@@ -66,7 +66,7 @@ export function Navigation({ activeSection }: { activeSection: string }) {
             <span className="text-lg font-semibold tracking-tight">FKH</span>
           </a>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href.replace('#', '')
               return (
@@ -74,23 +74,16 @@ export function Navigation({ activeSection }: { activeSection: string }) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative px-3 py-2 text-sm font-medium transition-colors',
-                    'rounded-md',
+                    'nav-link relative px-3 py-2 rounded-md transition-colors',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
                     isActive
-                      ? 'text-accent'
+                      ? 'nav-link-active text-accent'
                       : 'text-text-muted hover:text-text'
                   )}
                   onClick={(e) => handleLinkClick(e, item.href)}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {item.label}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent"
-                      aria-hidden="true"
-                    />
-                  )}
                 </a>
               )
             })}
@@ -137,7 +130,7 @@ export function Navigation({ activeSection }: { activeSection: string }) {
                         'block px-3 py-3 text-base font-medium rounded-md transition-colors',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
                         isActive
-                          ? 'text-accent bg-accent-muted'
+                          ? 'text-accent bg-accent-soft'
                           : 'text-text-muted hover:text-text hover:bg-bg-elevated'
                       )}
                       onClick={(e) => handleLinkClick(e, item.href)}
