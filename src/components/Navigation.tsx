@@ -20,10 +20,15 @@ const NAV_ITEMS: NavItem[] = [
 export function Navigation({ activeSection }: { activeSection: string }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 24)
+      
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0
+      setScrollProgress(Math.min(Math.max(progress, 0), 1))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -52,6 +57,18 @@ export function Navigation({ activeSection }: { activeSection: string }) {
       )}
       role="banner"
     >
+      {/* Scroll progress indicator */}
+      <div
+        className="absolute bottom-0 left-0 h-0.5 transition-transform duration-300 ease-out"
+        style={{
+          width: `${scrollProgress * 100}%`,
+          background: 'linear-gradient(90deg, var(--color-accent), var(--color-accent-hover))',
+          boxShadow: '0 0 8px var(--color-accent)',
+          transformOrigin: 'left center',
+        }}
+        aria-hidden="true"
+      />
+
       <nav
         className="container"
         aria-label="Main navigation"

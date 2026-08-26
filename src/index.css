@@ -91,6 +91,39 @@
     }
   }
 
+  #main-content {
+    scroll-snap-type: y proximity;
+  }
+
+  @media (max-width: 768px) {
+    #main-content {
+      scroll-snap-type: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #main-content {
+      scroll-snap-type: none;
+    }
+  }
+
+  section[id] {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  @media (max-width: 768px) {
+    section[id] {
+      scroll-snap-align: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      background-image: none;
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 600;
@@ -300,51 +333,77 @@
   /* ─── Section Identity & Backgrounds ─── */
   .section-home {
     background: 
-      radial-gradient(ellipse 80% 60% at 50% -20%, rgba(168, 85, 247, 0.06), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(168, 85, 247, 0.04), transparent 50%);
+      radial-gradient(ellipse 100% 80% at 50% -10%, rgba(168, 85, 247, 0.08), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 100% 100%, rgba(168, 85, 247, 0.05), transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
   }
 
   .section-about {
     background: 
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(168, 85, 247, 0.03), transparent 50%),
-      linear-gradient(180deg, transparent 0%, rgba(168, 85, 247, 0.01) 50%, transparent 100%);
+      radial-gradient(ellipse 80% 50% at 100% -10%, rgba(168, 85, 247, 0.04), transparent 55%),
+      linear-gradient(180deg, transparent 0%, rgba(168, 85, 247, 0.015) 50%, transparent 100%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.008'/%3E%3C/svg%3E");
+    min-height: 90vh;
   }
 
   .section-projects {
     background: 
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(168, 85, 247, 0.04), transparent 60%),
-      radial-gradient(ellipse 40% 30% at 0% 50%, rgba(168, 85, 247, 0.02), transparent 50%);
+      radial-gradient(ellipse 90% 60% at 50% 100%, rgba(168, 85, 247, 0.05), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 0% 50%, rgba(168, 85, 247, 0.03), transparent 50%);
+    min-height: 90vh;
   }
 
   .section-skills {
     background: 
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(168, 85, 247, 0.05), transparent 60%),
-      linear-gradient(180deg, rgba(168, 85, 247, 0.02) 0%, transparent 30%, transparent 70%, rgba(168, 85, 247, 0.02) 100%);
+      radial-gradient(ellipse 100% 70% at 50% 0%, rgba(168, 85, 247, 0.06), transparent 65%),
+      linear-gradient(180deg, rgba(168, 85, 247, 0.025) 0%, transparent 25%, transparent 75%, rgba(168, 85, 247, 0.025) 100%);
+    min-height: 90vh;
   }
 
   .section-homelab {
     background: 
-      radial-gradient(ellipse 60% 40% at 0% 50%, rgba(168, 85, 247, 0.03), transparent 60%),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23a855f7' stroke-width='0.3' stroke-opacity='0.03'/%3E%3C/svg%3E");
-    background-size: 60px 60px;
+      radial-gradient(ellipse 80% 50% at 0% 50%, rgba(168, 85, 247, 0.04), transparent 60%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none' stroke='%23a855f7' stroke-width='0.3' stroke-opacity='0.04'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gridNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gridNoise)' opacity='0.005'/%3E%3C/svg%3E");
+    background-size: 60px 60px, cover;
+    min-height: 90vh;
   }
 
   .section-education {
     background: 
-      radial-gradient(ellipse 50% 40% at 100% 50%, rgba(168, 85, 247, 0.025), transparent 60%),
-      linear-gradient(180deg, transparent 0%, rgba(168, 85, 247, 0.015) 50%, transparent 100%);
+      radial-gradient(ellipse 70% 50% at 100% 50%, rgba(168, 85, 247, 0.035), transparent 65%),
+      linear-gradient(180deg, transparent 0%, rgba(168, 85, 247, 0.02) 50%, transparent 100%);
+    min-height: 90vh;
   }
 
   .section-hobbies {
     background: 
-      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(168, 85, 247, 0.035), transparent 60%),
-      radial-gradient(ellipse 50% 40% at 0% 100%, rgba(249, 115, 22, 0.025), transparent 50%);
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(168, 85, 247, 0.04), transparent 65%),
+      radial-gradient(ellipse 70% 50% at 0% 100%, rgba(249, 115, 22, 0.035), transparent 55%);
+    min-height: 90vh;
   }
 
   .section-contact {
     background: 
-      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(168, 85, 247, 0.05), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(168, 85, 247, 0.025), transparent 50%);
+      radial-gradient(ellipse 100% 80% at 50% 100%, rgba(168, 85, 247, 0.06), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 100% 0%, rgba(168, 85, 247, 0.03), transparent 50%);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ensure sections have enough height for scroll snapping on desktop */
+  @media (min-width: 769px) {
+    section[id] {
+      min-height: 80vh;
+    }
+    
+    .section-home,
+    .section-contact {
+      min-height: 100vh;
+    }
   }
 
   /* ─── Section Entry/Exit Dividers ─── */
@@ -380,7 +439,7 @@
     background: linear-gradient(90deg, transparent, var(--color-border), transparent);
   }
 
-  /* Section-specific entry markers */
+  /* Section-specific entry markers - enhanced */
   .section-home::before {
     content: '';
     position: absolute;
@@ -391,6 +450,31 @@
     height: 100%;
     background: radial-gradient(ellipse at 50% 0%, rgba(168, 85, 247, 0.04) 0%, transparent 60%);
     pointer-events: none;
+  }
+
+  .section-about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    opacity: 0.3;
+  }
+
+  .section-projects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    opacity: 0.3;
+    border-radius: 2px;
   }
 
   .section-skills::before {
@@ -405,16 +489,15 @@
     opacity: 0.4;
   }
 
-  .section-projects::before {
+  .section-homelab::before {
     content: '';
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-    opacity: 0.3;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(180deg, transparent, var(--color-accent), transparent);
     border-radius: 2px;
   }
 
@@ -454,6 +537,40 @@
     pointer-events: none;
   }
 
+  /* Enhanced section exit markers */
+  .section-home::after,
+  .section-about::after,
+  .section-projects::after,
+  .section-skills::after,
+  .section-homelab::after,
+  .section-education::after,
+  .section-hobbies::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border-subtle), transparent);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Section entry animation when scrolled into view */
+  @media (prefers-reduced-motion: no-preference) {
+    .section-gap {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+
+    .section-gap.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* ─── Section Header Labels ─── */
   .section-header-label {
     display: inline-flex;
@@ -486,6 +603,78 @@
 
   .section-hobbies .section-header-label::before {
     background: linear-gradient(135deg, var(--color-accent), #f97316);
+  }
+
+  /* Enhanced section header compositions */
+  section header {
+    position: relative;
+  }
+
+  section header::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5rem;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  @media (min-width: 768px) {
+    section header::after {
+      width: 80px;
+      bottom: -2rem;
+    }
+  }
+
+  /* Section-specific header accents */
+  .section-home header::after {
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .section-about header::after {
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+
+  .section-projects header::after {
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+    width: 120px;
+    height: 3px;
+  }
+
+  .section-skills header::after {
+    background: var(--color-accent);
+    width: 60px;
+    height: 3px;
+    box-shadow: 0 0 12px var(--color-accent);
+  }
+
+  .section-homelab header::after {
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    width: 60px;
+  }
+
+  .section-education header::after {
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    width: 40px;
+    height: 3px;
+  }
+
+  .section-hobbies header::after {
+    background: linear-gradient(90deg, var(--color-accent), #f97316);
+    width: 100px;
+  }
+
+  .section-contact header::after {
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    width: 80px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   /* ─── Buttons ─── */

@@ -47,16 +47,22 @@ function SkillCategory({ category, prefersReducedMotion }: { category: Technolog
   )
 }
 
-export function Skills() {
+export function Skills({ isVisible }: { isVisible: boolean }) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   useEffect(() => { const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)'); setPrefersReducedMotion(mediaQuery.matches); const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches); mediaQuery.addEventListener('change', handler); return () => mediaQuery.removeEventListener('change', handler) }, [])
   return (
-    <section id="skills" className="section-skills relative section-gap">
+    <section id="skills" className={cn('section-skills relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in"><span className="section-header-label mb-6">Skills</span><h2 className="text-heading text-balance">Things I&apos;ve worked with</h2><p className="mt-4 text-body-lg max-w-2xl text-text-muted leading-relaxed">Technologies I&apos;ve used while building projects. Some extensively, some experimentally. Python I&apos;m learning in school.</p></header>
-        <div className="space-y-8 md:space-y-10 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <header className={cn('mb-16 md:mb-20 animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
+          <span className="section-header-label mb-6">Skills</span>
+          <h2 className="text-heading text-balance">Things I&apos;ve worked with</h2>
+          <p className="mt-4 text-body-lg max-w-2xl text-text-muted leading-relaxed">Technologies I&apos;ve used while building projects. Some extensively, some experimentally. Python I&apos;m learning in school.</p>
+        </header>
+        <div className={cn('space-y-8 md:space-y-10 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
           {SKILL_CATEGORIES.map((category) => (<SkillCategory key={category.label} category={category} prefersReducedMotion={prefersReducedMotion} />))}
-          <div className="pt-8 border-t border-border animate-fade-in" style={{ animationDelay: '200ms' }}><p className="text-caption leading-relaxed max-w-2xl mx-auto text-center">No proficiency bars, no percentages — just things I&apos;ve actually used while building and learning.</p></div>
+          <div className="pt-8 border-t border-border animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <p className="text-caption leading-relaxed max-w-2xl mx-auto text-center">No proficiency bars, no percentages — just things I&apos;ve actually used while building and learning.</p>
+          </div>
         </div>
       </div>
     </section>

@@ -49,16 +49,22 @@ function HomelabCategory({ category, prefersReducedMotion }: { category: Homelab
   )
 }
 
-export function Homelab() {
+export function Homelab({ isVisible }: { isVisible: boolean }) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   useEffect(() => { const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)'); setPrefersReducedMotion(mediaQuery.matches); const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches); mediaQuery.addEventListener('change', handler); return () => mediaQuery.removeEventListener('change', handler) }, [])
   return (
-    <section id="homelab" className="section-homelab relative section-gap">
+    <section id="homelab" className={cn('section-homelab relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in"><span className="section-header-label mb-6">Homelab</span><h2 className="text-heading text-balance">Homelab</h2><p className="mt-4 text-body-lg max-w-2xl text-text-muted leading-relaxed">I like taking old hardware, putting it to work, and seeing what I can make it do.</p></header>
-        <div className="space-y-8 md:space-y-10 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <header className={cn('mb-16 md:mb-20 animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
+          <span className="section-header-label mb-6">Homelab</span>
+          <h2 className="text-heading text-balance">Homelab</h2>
+          <p className="mt-4 text-body-lg max-w-2xl text-text-muted leading-relaxed">I like taking old hardware, putting it to work, and seeing what I can make it do.</p>
+        </header>
+        <div className={cn('space-y-8 md:space-y-10 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
           {HOMELAB_CATEGORIES.map((category) => (<HomelabCategory key={category.label} category={category} prefersReducedMotion={prefersReducedMotion} />))}
-          <div className="pt-8 border-t border-border animate-fade-in" style={{ animationDelay: '200ms' }}><p className="text-caption leading-relaxed max-w-2xl mx-auto text-center">I mostly do this because it&apos;s fun to see something running on hardware that would&apos;ve otherwise been sitting around.</p></div>
+          <div className="pt-8 border-t border-border animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <p className="text-caption leading-relaxed max-w-2xl mx-auto text-center">I mostly do this because it&apos;s fun to see something running on hardware that would&apos;ve otherwise been sitting around.</p>
+          </div>
         </div>
       </div>
     </section>

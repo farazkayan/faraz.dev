@@ -1,13 +1,19 @@
-export function About() {
+interface AboutProps {
+  isVisible: boolean
+}
+
+import { cn } from '../lib/utils'
+
+export function About({ isVisible }: AboutProps) {
   return (
-    <section id="about" className="section-about relative section-gap">
+    <section id="about" className={cn('section-about relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in">
+        <header className={cn('mb-16 md:mb-20 animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
           <span className="section-header-label mb-6">About</span>
           <h2 className="text-heading text-balance">About</h2>
         </header>
 
-        <div className="max-w-3xl mx-auto space-y-10 md:space-y-12 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className={cn('max-w-3xl mx-auto space-y-10 md:space-y-12 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
           {/* Opening statement - larger, more prominent */}
           <div className="prose prose-invert prose-lg md:prose-xl max-w-none">
             <p className="text-text-secondary leading-relaxed text-lg">

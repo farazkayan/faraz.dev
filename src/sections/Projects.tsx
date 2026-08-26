@@ -350,7 +350,7 @@ function NexusCard() {
   )
 }
 
-export function Projects() {
+export function Projects({ isVisible }: { isVisible: boolean }) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
@@ -362,15 +362,15 @@ export function Projects() {
   }, [])
 
   return (
-    <section id="projects" className="section-projects relative section-gap">
+    <section id="projects" className={cn('section-projects relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in">
+        <header className={cn('mb-16 md:mb-20 animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
           <span className="section-header-label mb-6">Projects</span>
           <h2 className="text-heading text-balance">Projects</h2>
           <p className="mt-4 text-body-lg max-w-2xl text-text-muted leading-relaxed">Things I built because I wanted them to exist.</p>
         </header>
 
-        <div className="space-y-12 md:space-y-16 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className={cn('space-y-12 md:space-y-16 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
           <AveroCard prefersReducedMotion={prefersReducedMotion} />
           <NexusCard />
 

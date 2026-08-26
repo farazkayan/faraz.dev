@@ -1,3 +1,5 @@
+import { cn } from '../lib/utils'
+
 interface SocialLink { name: string; url: string; icon: React.ReactNode; ariaLabel: string }
 interface ContactData { email: string; heading: string; subtext: string; socialLinks: SocialLink[] }
 
@@ -13,16 +15,32 @@ const CONTACT_DATA: ContactData = {
   ],
 }
 
-export function Contact() {
+export function Contact({ isVisible }: { isVisible: boolean }) {
   const { email, heading, subtext, socialLinks } = CONTACT_DATA
   return (
-    <section id="contact" className="section-contact relative section-gap">
+    <section id="contact" className={cn('section-contact relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in text-center"><span className="section-header-label mb-6">Contact</span><h2 className="text-heading text-balance">{heading}</h2><p className="mt-4 text-body-lg max-w-2xl mx-auto text-text-muted leading-relaxed">{subtext}</p></header>
-        <div className="max-w-xl mx-auto animate-slide-up" style={{ animationDelay: '100ms' }}>
-          <a href={`mailto:${email}`} className="contact-cta w-full group block py-6 px-8 text-center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="inline-block group-hover:translate-x-0.5 transition-transform duration-200"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span className="font-mono text-base tracking-wider block mt-2">{email}</span></a>
+        <header className={cn('mb-16 md:mb-20 animate-fade-in text-center', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
+          <span className="section-header-label mb-6">Contact</span>
+          <h2 className="text-heading text-balance">{heading}</h2>
+          <p className="mt-4 text-body-lg max-w-2xl mx-auto text-text-muted leading-relaxed">{subtext}</p>
+        </header>
+        <div className={cn('max-w-xl mx-auto animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
+          <a href={`mailto:${email}`} className="contact-cta w-full group block py-6 px-8 text-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="inline-block group-hover:translate-x-0.5 transition-transform duration-200">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span className="font-mono text-base tracking-wider block mt-2">{email}</span>
+          </a>
           <p className="mt-8 text-center text-text-subtle text-sm">Or find me elsewhere</p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">{socialLinks.map((social) => (<a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label={social.ariaLabel}>{social.icon}</a>))}</div>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            {socialLinks.map((social) => (
+              <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label={social.ariaLabel}>
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -9,6 +9,10 @@ interface School {
   current?: boolean
 }
 
+interface EducationProps {
+  isVisible: boolean
+}
+
 const SCHOOLS: School[] = [
   {
     name: 'Mastermind English Medium School',
@@ -91,7 +95,7 @@ function SchoolEntry({
   )
 }
 
-export function Education() {
+export function Education({ isVisible }: EducationProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
@@ -103,19 +107,19 @@ export function Education() {
   }, [])
 
   return (
-    <section id="education" className="section-education relative section-gap">
+    <section id="education" className={cn('section-education relative section-gap', isVisible && 'is-visible')}>
       <div className="container relative z-10">
-        <header className="mb-16 md:mb-20 animate-fade-in">
+        <header className={cn('mb-16 md:mb-20 animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
           <span className="section-header-label mb-6">Education</span>
           <h2 className="text-heading text-balance">Education</h2>
         </header>
-        <div className="relative">
+        <div className={cn('relative', isVisible ? 'is-visible' : '')}>
           {/* Timeline connecting line */}
           <div
             className="absolute left-[22px] md:left-[120px] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent"
             aria-hidden="true"
           />
-          <div className="space-y-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <div className={cn('space-y-8 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }}>
             {SCHOOLS.map((school, index) => (
               <SchoolEntry
                 key={school.name}

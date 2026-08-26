@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { cn } from '../lib/utils'
 
+interface HomeProps {
+  isVisible: boolean
+}
+
 interface WorkflowStage {
   id: string
   label: string
@@ -92,7 +96,7 @@ function WorkflowPanel({
   )
 }
 
-export function Home() {
+export function Home({ isVisible }: HomeProps) {
   const [activeWorkflowIndex, setActiveWorkflowIndex] = useState(0)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
@@ -109,12 +113,12 @@ export function Home() {
   const activeStage = WORKFLOW_STAGES[activeWorkflowIndex]
 
   return (
-    <section id="home" className="section-home relative min-h-screen flex items-center justify-center py-20 md:py-28 lg:py-36">
+    <section id="home" className={cn('section-home relative min-h-screen flex items-center justify-center py-20 md:py-28 lg:py-36', isVisible && 'is-visible')}>
       <div className="container relative z-10">
         {/* Entrance marker */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-accent/40 to-transparent animate-pulse" style={{ animationDuration: prefersReducedMotion ? '0ms' : '2000ms' }} aria-hidden="true" />
 
-        <header className="mb-16 md:mb-24 text-center animate-fade-in">
+        <header className={cn('mb-16 md:mb-24 text-center animate-fade-in', isVisible ? 'is-visible' : '')} style={{ animationDelay: '0ms' }}>
           <span className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono uppercase tracking-wider mb-8 rounded-full border border-border bg-bg-card">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" style={{ animationDuration: prefersReducedMotion ? '0ms' : '1500ms' }} aria-hidden="true" />
             Student & Builder
@@ -131,7 +135,7 @@ export function Home() {
         </header>
 
         {/* Navigation portal */}
-        <nav className="mb-16 md:mb-20 animate-slide-up" style={{ animationDelay: '100ms' }} aria-label="Quick navigation">
+        <nav className={cn('mb-16 md:mb-20 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '100ms' }} aria-label="Quick navigation">
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
             {QUICK_LINKS.map((link) => (
               <a key={link.label} href={link.href} className="group card-elevated flex flex-col items-center gap-2 p-5 rounded-xl text-center transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
@@ -147,7 +151,7 @@ export function Home() {
           </div>
         </nav>
 
-        <div className="mt-8 md:mt-12 animate-slide-up" style={{ animationDelay: '200ms' }}>
+        <div className={cn('mt-8 md:mt-12 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '200ms' }}>
           <div className="flex items-center justify-center gap-2 md:gap-3 font-mono text-xs text-text-subtle uppercase tracking-wider">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" style={{ animationDuration: prefersReducedMotion ? '0ms' : '1500ms' }} aria-hidden="true" />
             <span>Currently</span>
@@ -172,7 +176,7 @@ export function Home() {
           </div>
         </div>
 
-        <div className="mt-16 md:mt-20 animate-slide-up" style={{ animationDelay: '300ms' }}>
+        <div className={cn('mt-16 md:mt-20 animate-slide-up', isVisible ? 'is-visible' : '')} style={{ animationDelay: '300ms' }}>
           <div className="max-w-4xl mx-auto">
             <p className="font-mono text-xs uppercase tracking-wider text-text-subtle text-center mb-10">
               How I Build

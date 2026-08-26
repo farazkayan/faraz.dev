@@ -22,21 +22,21 @@ const SECTION_IDS: string[] = [
 ]
 
 function App() {
-  const activeSection = useActiveSection(SECTION_IDS)
+  const { activeId, visibleSections } = useActiveSection(SECTION_IDS)
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation activeSection={activeSection} />
+      <Navigation activeSection={activeId} />
 
       <main className="flex-1 pt-16" id="main-content">
-        <Home />
-        <About />
-        <Education />
-        <Projects />
-        <Skills />
-        <Homelab />
-        <Hobbies />
-        <Contact />
+        <Home isVisible={visibleSections.has('home')} />
+        <About isVisible={visibleSections.has('about')} />
+        <Education isVisible={visibleSections.has('education')} />
+        <Projects isVisible={visibleSections.has('projects')} />
+        <Skills isVisible={visibleSections.has('skills')} />
+        <Homelab isVisible={visibleSections.has('homelab')} />
+        <Hobbies isVisible={visibleSections.has('hobbies')} />
+        <Contact isVisible={visibleSections.has('contact')} />
       </main>
 
       <Footer />
