@@ -75,9 +75,9 @@ export const Contact = () => {
           {/* Social Links */}
           <div className="flex items-center gap-4 flex-wrap">
             {[
-              { icon: <Github size={22} />, href: 'https://github.com/farazkayanhaque', label: 'GitHub', hover: 'hover:text-white hover:border-white hover:bg-white/5' },
-              { icon: <Linkedin size={22} />, href: 'https://linkedin.com/in/farazkayanhaque', label: 'LinkedIn', hover: 'hover:text-[#0A66C2] hover:border-[#0A66C2] hover:bg-[#0A66C2]/10' },
-              { icon: <Instagram size={22} />, href: 'https://instagram.com/farazkayanhaque', label: 'Instagram', hover: 'hover:text-[#E1306C] hover:border-[#E1306C] hover:bg-[#E1306C]/10' },
+              { icon: <Github size={22} />, href: 'https://github.com/farazkayan', label: 'GitHub', hover: 'hover:text-white hover:border-white hover:bg-white/5' },
+              { icon: <Linkedin size={22} />, href: 'https://linkedin.com/in/faraz-kayan-haque-6b70253aa/', label: 'LinkedIn', hover: 'hover:text-[#0A66C2] hover:border-[#0A66C2] hover:bg-[#0A66C2]/10' },
+              { icon: <Instagram size={22} />, href: 'https://www.instagram.com/faraz_kayan_haque', label: 'Instagram', hover: 'hover:text-[#E1306C] hover:border-[#E1306C] hover:bg-[#E1306C]/10' },
               { icon: <Facebook size={22} />, href: 'https://facebook.com/farazkayanhaque', label: 'Facebook', hover: 'hover:text-[#1877F2] hover:border-[#1877F2] hover:bg-[#1877F2]/10' },
             ].map((social) => (              
               <a 
