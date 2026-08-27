@@ -1,6 +1,8 @@
 import { motion } from 'motion/react';
 import { Section } from './Section';
 import { GraduationCap, ArrowDown } from 'lucide-react';
+import mastermindLogo from '../../assets/education/mastermind.svg';
+import yaleLogo from '../../assets/education/yale.svg';
 
 export const Education = () => {
   return (
@@ -39,10 +41,9 @@ export const Education = () => {
               </div>
               
               <div className="flex-1 bg-[#1C1C20] border border-white/5 rounded-[2rem] p-6 sm:p-8 flex items-start gap-6 relative overflow-hidden transition-colors hover:border-white/10">
-                {/* Logo Placeholder */}
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 shrink-0 flex items-center justify-center overflow-hidden">
-                  <GraduationCap size={24} className="text-[#71717A]" />
-                  {/* <img src="/yale-logo.png" alt="Yale International School Logo" className="w-full h-full object-cover" /> */}
+                {/* Logo */}
+                <div className="w-16 h-16 rounded-2xl bg-[#F4F4F5] border border-white/20 shrink-0 flex items-center justify-center overflow-hidden">
+                  <img src={yaleLogo} alt="Yale International School Logo" className="w-full h-full object-contain" />
                 </div>
                 
                 <div>
@@ -74,10 +75,9 @@ export const Education = () => {
               <div className="flex-1 bg-[#1C1C20] border border-[#3B82F6]/30 rounded-[2rem] p-6 sm:p-8 flex items-start gap-6 relative overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.05)] ring-1 ring-[#3B82F6]/10">
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#3B82F6]" />
                 
-                {/* Logo Placeholder */}
-                <div className="w-16 h-16 rounded-2xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 shrink-0 flex items-center justify-center overflow-hidden text-[#3B82F6]">
-                  <GraduationCap size={24} />
-                  {/* <img src="/mastermind-logo.png" alt="Mastermind English Medium School Logo" className="w-full h-full object-cover" /> */}
+                {/* Logo */}
+                <div className="w-16 h-16 rounded-2xl bg-[#F4F4F5] border border-white/20 shrink-0 flex items-center justify-center overflow-hidden">
+                  <img src={mastermindLogo} alt="Mastermind English Medium School Logo" className="w-full h-full object-contain" />
                 </div>
                 
                 <div>
