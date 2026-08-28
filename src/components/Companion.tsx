@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Terminal } from 'lucide-react';
 
+
 export const Companion = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCat, setIsCat] = useState(false);
@@ -41,7 +42,7 @@ export const Companion = () => {
   );
 };
 
-const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat: (v: boolean) => void }) => {
+export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat: (v: boolean) => void }) => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<{ type: 'input' | 'output', content: string | ReactNode }[]>([
     { type: 'output', content: 'Portfolio OS v1.0.0' },
@@ -49,10 +50,6 @@ const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat:
   ]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
-  // Vault state
-  const [ideas, setIdeas] = useState<any[]>([]);
-  const [ideaIndex, setIdeaIndex] = useState(0);
   
   // Idea submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,27 +63,6 @@ const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat:
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-
-  const fetchIdeas = async () => {
-    try {
-      const res = await fetch('/api/ideas/approved');
-      if (res.ok) {
-        const data = await res.json();
-        setIdeas(data);
-        return data;
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    return [];
-  };
-
-  const likeIdea = async (id: string) => {
-    try {
-      await fetch(`/api/ideas/${id}/might_build`, { method: 'POST' });
-      // In a real terminal, we might want to show a message, but let's keep it simple.
-    } catch (e) {}
-  };
 
   const handleCommand = async (cmd: string) => {
     const trimmed = cmd.trim();
@@ -135,30 +111,48 @@ const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat:
       case 'ideas':
         newHistory.push({ type: 'output', content: 'fetching ideas...' });
         setHistory(newHistory);
-        const data = await fetchIdeas();
-        if (data.length > 0) {
-          const idea = data[0];
-          setHistory(prev => [...prev.slice(0, -1), {
-            type: 'output',
-            content: renderIdea(idea)
-          }]);
-        } else {
-          setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'the vault is currently empty.' }]);
+        try {
+          const res = await fetch('/api/ideas/approved');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.length > 0) {
+              const idea = data[0];
+              setHistory(prev => [...prev.slice(0, -1), {
+                type: 'output',
+                content: renderIdea(idea)
+              }]);
+            } else {
+              setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'the vault is currently empty.' }]);
+            }
+          } else {
+            setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'failed to fetch ideas.' }]);
+          }
+        } catch (e) {
+          setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'failed to fetch ideas.' }]);
         }
         return;
 
       case 'random':
         newHistory.push({ type: 'output', content: 'searching the vault...' });
         setHistory(newHistory);
-        const randData = ideas.length > 0 ? ideas : await fetchIdeas();
-        if (randData.length > 0) {
-          const randIdea = randData[Math.floor(Math.random() * randData.length)];
-          setHistory(prev => [...prev, {
-            type: 'output',
-            content: renderIdea(randIdea)
-          }]);
-        } else {
-          setHistory(prev => [...prev, { type: 'output', content: 'the vault is empty.' }]);
+        try {
+          const res = await fetch('/api/ideas/approved');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.length > 0) {
+              const randIdea = data[Math.floor(Math.random() * data.length)];
+              setHistory(prev => [...prev, {
+                type: 'output',
+                content: renderIdea(randIdea)
+              }]);
+            } else {
+              setHistory(prev => [...prev, { type: 'output', content: 'the vault is empty.' }]);
+            }
+          } else {
+            setHistory(prev => [...prev, { type: 'output', content: 'failed to fetch ideas.' }]);
+          }
+        } catch (e) {
+          setHistory(prev => [...prev, { type: 'output', content: 'failed to fetch ideas.' }]);
         }
         return;
 
@@ -220,6 +214,23 @@ const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat:
         
       case 'cat':
         newHistory.push({ type: 'output', content: 'meow.' });
+        break;
+
+      case 'suki':
+        newHistory.push({
+          type: 'output',
+          content: (
+            <div className="text-[#eab308] mt-1">
+              <pre>{` /\\_/\\
+ ( o.o )
+  > ^ <`}</pre>
+              <br/>
+              <p>Suki has entered the terminal.</p>
+              <br/>
+              <p>He is judging your typing speed.</p>
+            </div>
+          )
+        });
         break;
 
       default:
@@ -291,7 +302,6 @@ const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat:
         <span className="text-xs text-[#71717A]">by {idea.optional_name}</span>
         <button 
           onClick={() => {
-            likeIdea(idea.id);
             const el = document.getElementById(`like-${idea.id}`);
             if (el) el.innerText = `${(idea.might_build_count || 0) + 1} people might build this`;
           }}

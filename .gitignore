@@ -1,32 +1,16 @@
-﻿# Dependencies
 node_modules/
-
-# Build output
-dist/
 build/
-
-# Environment / secrets
+dist/
+coverage/
+.DS_Store
+*.log
 .env
 .env.*
 !.env.example
 
-# AI / coding agent files
 .kilo/
 .playwright-mcp/
-
-# Editor
 .vscode/
-.idea/
 
-# Old portfolio backup
 old-portfolio/
-
-# Local data
 ideas_db.json
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db

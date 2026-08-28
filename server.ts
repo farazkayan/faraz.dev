@@ -1,14 +1,32 @@
 import express from "express";
 import path from "path";
-import fs from "fs";
 import { createServer as createViteServer } from "vite";
+import { createClient } from "@supabase/supabase-js";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = 3000;
 
-app.use(express.json());
+console.log("[server] Environment check:", {
+  ADMIN_PASSWORD: !!process.env.ADMIN_PASSWORD,
+  SUPABASE_URL: !!process.env.SUPABASE_URL,
+  SUPABASE_KEY: !!process.env.SUPABASE_KEY,
+  SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+  ADMIN_SESSION_SECRET: !!process.env.ADMIN_SESSION_SECRET,
+  NODE_ENV: process.env.NODE_ENV || "development"
+});
 
-const DB_FILE = path.join(process.cwd(), "ideas_db.json");
+const sessionSecret = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD;
+if (!sessionSecret) {
+  console.error("[server] WARNING: No session secret configured (ADMIN_SESSION_SECRET or ADMIN_PASSWORD)");
+}
+
+app.use(express.json());
+app.use(cookieParser(sessionSecret));
 
 interface Idea {
   id: string;
@@ -22,121 +40,171 @@ interface Idea {
   might_build_count: number;
 }
 
-// Ensure DB exists
-if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify([]));
+function getSupabase(useServiceRole = false) {
+  const url = process.env.SUPABASE_URL;
+  const key = useServiceRole ? process.env.SUPABASE_SERVICE_ROLE_KEY : process.env.SUPABASE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
 }
 
-function getIdeas(): Idea[] {
-  try {
-    const data = fs.readFileSync(DB_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch (e) {
-    return [];
+// In-memory rate limiter for admin login
+const loginAttempts = new Map<string, { count: number; lastAttempt: number }>();
+const MAX_ATTEMPTS = 5;
+const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const LOCKOUT_MS = 30 * 60 * 1000; // 30 minutes
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = loginAttempts.get(ip);
+
+  if (!record) {
+    loginAttempts.set(ip, { count: 1, lastAttempt: now });
+    return true;
   }
+
+  // Clean old records
+  if (now - record.lastAttempt > WINDOW_MS) {
+    loginAttempts.set(ip, { count: 1, lastAttempt: now });
+    return true;
+  }
+
+  if (record.count >= MAX_ATTEMPTS) {
+    return false;
+  }
+
+  record.count++;
+  record.lastAttempt = now;
+  return true;
 }
 
-function saveIdeas(ideas: Idea[]) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(ideas, null, 2));
+function resetRateLimit(ip: string) {
+  loginAttempts.delete(ip);
 }
 
-app.post("/api/ideas", (req, res) => {
+app.post("/api/ideas", async (req, res) => {
   const { idea, description, platform, optional_name } = req.body;
   if (!idea) {
     return res.status(400).json({ error: "Idea is required" });
   }
 
-  const ideas = getIdeas();
-  const nextIdNum = ideas.length + 1;
-  const idStr = String(nextIdNum).padStart(6, "0");
-  const newIdea: Idea = {
-    id: `IDEA-${idStr}`,
-    idea,
-    description: description || "",
-    category: "general", // Can be expanded
-    platform: platform || "other",
-    optional_name: optional_name || "anonymous",
-    created_at: new Date().toISOString(),
-    status: "pending",
-    might_build_count: 0,
+  const supabase = getSupabase(false);
+  if (!supabase) {
+    console.error("Supabase not configured");
+    return res.status(500).json({ error: "Database not configured" });
+  }
+
+  let fullIdea = idea;
+  if (description) fullIdea += `\n\nDescription: ${description}`;
+  if (platform) fullIdea += `\nPlatform: ${platform}`;
+
+  const newIdea = {
+    idea: fullIdea,
+    name: optional_name || "anonymous",
   };
 
-  ideas.push(newIdea);
-  saveIdeas(ideas);
+  try {
+    const { error } = await supabase.from("ideas").insert([newIdea]);
+    if (error) throw error;
 
-  res.json(newIdea);
-});
-
-app.get("/api/ideas/approved", (req, res) => {
-  const ideas = getIdeas();
-  // By default we return all for the Easter egg until there's an actual moderation UI being used.
-  // Actually, wait, the spec says "Only approved ideas should appear publicly." 
-  // For the sake of the Easter egg demo, let's just make new submissions "approved" automatically so they show up, 
-  // or return pending ones if there are no approved ones?
-  // Let's stick to the spec: status: 'pending' on creation.
-  const approved = ideas.filter((i) => i.status === "approved");
-  res.json(approved);
-});
-
-app.post("/api/ideas/:id/might_build", (req, res) => {
-  const ideas = getIdeas();
-  const idea = ideas.find((i) => i.id === req.params.id);
-  if (idea) {
-    idea.might_build_count = (idea.might_build_count || 0) + 1;
-    saveIdeas(ideas);
-    res.json(idea);
-  } else {
-    res.status(404).json({ error: "Not found" });
+    const randomStr = Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
+    res.json({ id: `IDEA-${randomStr}`, ...req.body });
+  } catch (err) {
+    console.error("Error saving idea:", JSON.stringify(err));
+    res.status(500).json({ error: "Failed to save idea" });
   }
 });
 
-// Admin routes (basic implementation)
-app.get("/api/admin/ideas", (req, res) => {
-  // In a real app this would have auth.
-  res.json(getIdeas());
-});
+// Admin routes
+app.post("/api/admin/login", (req, res) => {
+  const ip = req.ip || req.socket.remoteAddress || "unknown";
 
-app.post("/api/admin/ideas/:id/status", (req, res) => {
-  const { status } = req.body;
-  const ideas = getIdeas();
-  const idea = ideas.find((i) => i.id === req.params.id);
-  if (idea) {
-    idea.status = status;
-    saveIdeas(ideas);
-    res.json(idea);
-  } else {
-    res.status(404).json({ error: "Not found" });
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ error: "Too many attempts. Try again later." });
   }
-});
 
-// Seed some initial approved ideas if empty
-const initialIdeas = getIdeas();
-if (initialIdeas.length === 0) {
-  saveIdeas([
-    {
-      id: "IDEA-000001",
-      idea: "An app that tells you which of your friends are actually free without messaging everyone.",
-      description: "It's so annoying trying to coordinate hangouts.",
-      category: "social",
-      platform: "mobile",
-      optional_name: "josh",
-      created_at: new Date().toISOString(),
-      status: "approved",
-      might_build_count: 12,
-    },
-    {
-      id: "IDEA-000002",
-      idea: "A better way to organize school assignments.",
-      description: "Canvas is too cluttered, I just want a simple timeline.",
-      category: "education",
-      platform: "web",
-      optional_name: "sarah",
-      created_at: new Date().toISOString(),
-      status: "approved",
-      might_build_count: 5,
+  const { password } = req.body;
+  if (!process.env.ADMIN_PASSWORD) {
+    return res.status(500).json({ error: "Admin not configured" });
+  }
+
+  // Constant-time comparison to prevent timing attacks
+  const providedPassword = password || "";
+  const expectedPassword = process.env.ADMIN_PASSWORD;
+  let match = providedPassword.length === expectedPassword.length;
+  for (let i = 0; i < providedPassword.length; i++) {
+    if (providedPassword[i] !== expectedPassword[i]) {
+      match = false;
     }
-  ]);
-}
+  }
+
+  if (match) {
+    resetRateLimit(ip);
+    const isProduction = process.env.NODE_ENV === "production";
+    console.log("[server] Admin login successful, setting cookie");
+    res.cookie("admin_auth", "authenticated", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      signed: true,
+      maxAge: 1000 * 60 * 60 * 24 // 1 day
+    });
+    res.json({ success: true });
+  } else {
+    console.log("[server] Admin login failed - invalid password");
+    res.status(401).json({ error: "Invalid password" });
+  }
+});
+
+app.post("/api/admin/logout", (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+  res.clearCookie("admin_auth", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    signed: true
+  });
+  res.json({ success: true });
+});
+
+app.get("/api/admin/ideas", async (req, res) => {
+  console.log("[server] /api/admin/ideas - signedCookies:", req.signedCookies);
+  console.log("[server] /api/admin/ideas - cookies:", req.cookies);
+  
+  if (req.signedCookies.admin_auth !== "authenticated") {
+    console.log("[server] Admin auth failed - no valid signed cookie");
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const supabase = getSupabase(true); // Use service role for admin
+  if (!supabase) {
+    return res.status(500).json({ error: "Database not configured (service role key required)" });
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("ideas")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const formattedData = data?.map(d => ({
+      id: d.id,
+      idea: d.idea,
+      created_at: d.created_at || new Date().toISOString(),
+      status: "pending",
+      platform: "unknown",
+      optional_name: d.name || "anonymous",
+      might_build_count: 0
+    }));
+
+    res.json(formattedData || []);
+  } catch (err) {
+    console.error("Error fetching ideas for admin:", err);
+    res.status(500).json({ error: "Failed to fetch ideas" });
+  }
+});
+
 
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
