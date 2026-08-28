@@ -42,59 +42,281 @@ export const Companion = () => {
   );
 };
 
+const MatrixEffect = () => {
+  const [lines, setLines] = useState<string[]>([]);
+  useEffect(() => {
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count > 15) {
+        clearInterval(interval);
+        return;
+      }
+      const randomLine = Array.from({ length: 40 })
+        .map(() => String.fromCharCode(33 + Math.floor(Math.random() * 94)))
+        .join('');
+      setLines(prev => [...prev.slice(-4), randomLine]);
+      count++;
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="font-mono text-[#10B981] leading-tight opacity-75 mt-1">
+      {lines.map((l, i) => <div key={i}>{l}</div>)}
+      {lines.length >= 15 && <div className="text-white mt-1">Wake up, Neo...</div>}
+    </div>
+  );
+};
+
+const HackEffect = () => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(p => {
+        if (p >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return p + 20;
+      });
+    }, 200);
+    return () => clearInterval(interval);
+  }, []);
+
+  const bars = Math.floor(progress / 5);
+  const barStr = '█'.repeat(bars) + ' '.repeat(20 - bars);
+  return (
+    <div className="font-mono text-[#10B981] mt-1">
+      <div>Initializing...</div>
+      <div>[{barStr}] {progress}%</div>
+      {progress === 100 && (
+        <>
+          <div className="mt-2 text-white font-bold">ACCESS GRANTED</div>
+          <div className="mt-2 text-[#94949F]">...</div>
+          <div className="mt-2 text-[#94949F]">just kidding.</div>
+        </>
+      )}
+    </div>
+  );
+};
+
 export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, setIsCat: (v: boolean) => void }) => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<{ type: 'input' | 'output', content: string | ReactNode }[]>([
-    { type: 'output', content: 'Portfolio OS v1.0.0' },
-    { type: 'output', content: 'Type "help" for a list of commands.' }
+    { type: 'output', content: 'Portfolio OS v1.0\nType "help" to see available commands.' }
   ]);
-  const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
-  // Idea submission state
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStep, setSubmitStep] = useState(0);
-  const [draftIdea, setDraftIdea] = useState({ idea: '', description: '', platform: '', optional_name: '' });
+  const [ideaData, setIdeaData] = useState<{ idea?: string, description?: string, platform?: string, name?: string }>({});
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
+  }, [history, isSubmitting]);
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [isAdminLogin, isSubmitting]);
+
+  const fetchAdminIdeas = async (currentHistory: any[]) => {
+    try {
+      const res = await fetch('/api/admin/ideas', { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.length === 0) {
+          setHistory([...currentHistory, { type: 'output', content: 'no ideas in the vault.' }]);
+        } else {
+          const list = data.map((idea: any) => (
+            <div key={idea.id} className="mb-4 border-l-2 border-[#A855F7] pl-3 py-1">
+              <div className="text-[#A855F7] text-xs mb-1 flex justify-between pr-4">
+                <span>{idea.id} - {idea.status}</span>
+                <span>{new Date(idea.created_at).toLocaleDateString()}</span>
+              </div>
+              <p className="text-white text-sm whitespace-pre-wrap">"{idea.idea}"</p>
+              <div className="text-[#94949F] text-xs mt-1">
+                by: {idea.optional_name} | platform: {idea.platform} | votes: {idea.might_build_count || 0}
+              </div>
+            </div>
+          ));
+          setHistory([...currentHistory, {
+            type: 'output',
+            content: <div className="mt-2">{list}</div>
+          }]);
+        }
+      } else {
+        setHistory([...currentHistory, { type: 'output', content: 'failed to fetch ideas. session may have expired.' }]);
+        setIsAdminAuthenticated(false);
+      }
+    } catch (e) {
+      setHistory([...currentHistory, { type: 'output', content: 'error connecting to admin vault.' }]);
+    }
+  };
+
+  const handleAdminLogin = async (val: string) => {
+    const newHistory = [...history, { type: 'input', content: '*'.repeat(val.length) }];
+    setIsAdminLogin(false);
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: val }),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        newHistory.push({ type: 'output', content: 'authentication successful. fetching ideas...' });
+        setHistory(newHistory);
+        setIsAdminAuthenticated(true);
+        await fetchAdminIdeas(newHistory);
+      } else {
+        newHistory.push({ type: 'output', content: 'access denied.' });
+        setHistory(newHistory);
+      }
+    } catch (e) {
+      newHistory.push({ type: 'output', content: 'connection error.' });
+      setHistory(newHistory);
+    }
+  };
+
+  const handleSubmissionStep = async (val: string) => {
+    const newHistory = [...history, { type: 'input', content: `> ${val}` }];
+    if (submitStep === 1) {
+      setIdeaData({ ...ideaData, idea: val });
+      setSubmitStep(2);
+      newHistory.push({ type: 'output', content: 'Why would you want it?' });
+      setHistory(newHistory);
+      return;
+    }
+    if (submitStep === 2) {
+      setIdeaData({ ...ideaData, description: val });
+      setSubmitStep(3);
+      newHistory.push({ type: 'output', content: 'What would it be? [web] [mobile] [desktop] [other]' });
+      setHistory(newHistory);
+      return;
+    }
+    if (submitStep === 3) {
+      setIdeaData({ ...ideaData, platform: val });
+      setSubmitStep(4);
+      newHistory.push({ type: 'output', content: 'Want to leave a name?' });
+      setHistory(newHistory);
+      return;
+    }
+    if (submitStep === 4) {
+      const finalIdea = { ...ideaData, optional_name: val };
+      setIsSubmitting(false);
+      setSubmitStep(0);
+      newHistory.push({ type: 'output', content: 'saving to vault...' });
+      setHistory(newHistory);
+      try {
+        const res = await fetch('/api/ideas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(finalIdea)
+        });
+        if (!res.ok) throw new Error('Failed to save');
+        setHistory(prev => [...prev, {
+          type: 'output',
+          content: (
+            <div className="text-[#10B981] mt-2">
+              ✓ idea received.<br/><br/>I'll add it to the pile of things I might build someday.
+            </div>
+          )
+        }]);
+      } catch (e) {
+        setHistory(prev => [...prev, { type: 'output', content: 'failed to save idea. database might not be configured.' }]);
+      }
+      return;
+    }
+    setHistory(newHistory);
+  };
 
   const handleCommand = async (cmd: string) => {
     const trimmed = cmd.trim();
     if (!trimmed) return;
-
+    if (isAdminLogin) {
+      handleAdminLogin(trimmed);
+      return;
+    }
     if (isSubmitting) {
       handleSubmissionStep(trimmed);
       return;
     }
 
     const newHistory = [...history, { type: 'input', content: `faraz@portfolio ~ $ ${trimmed}` }];
+    const args = trimmed.split(' ');
+    const baseCmd = args[0].toLowerCase();
     
-    switch (trimmed.toLowerCase()) {
+    switch (baseCmd) {
       case 'help':
         newHistory.push({
           type: 'output',
           content: (
             <div className="flex flex-col gap-1 text-sm text-[#C4C4CA]">
-              <p className="mb-2 text-[#94949F]">commands:</p>
-              <div className="grid grid-cols-[80px_1fr] gap-4">
-                <span className="text-white">ideas</span><span>browse things people wish existed</span>
-                <span className="text-white">random</span><span>give me something unexpected</span>
-                <span className="text-white">submit</span><span>leave an idea</span>
-                <span className="text-white">about</span><span>why this exists</span>
-                <span className="text-white">clear</span><span>clear the terminal</span>
-                <span className="text-white">exit</span><span>close</span>
+              <p className="mb-2 text-[#94949F]">AVAILABLE COMMANDS</p>
+              <div className="grid grid-cols-[80px_1fr] gap-x-4 gap-y-1">
+                <span className="text-[#10B981] font-bold">★ submit</span><span className="text-[#10B981]">Got an idea for something I should build?</span>
+                <span className="text-white">suki</span><span>Summon an orange cat</span>
+                <span className="text-white">neofetch</span><span>System information</span>
+                <span className="text-white">whoami</span><span>Who is this?</span>
+                <span className="text-white">about</span><span>Why this terminal exists</span>
+                <span className="text-white">clear</span><span>Clear the terminal</span>
+              </div>
+              <div className="mt-2 text-[#94949F] text-xs">
+                Type <span className="text-white">exit</span> or click × to close.
               </div>
             </div>
           )
         });
         break;
-      
+
+      case 'clear':
+        setHistory([]);
+        setInput('');
+        return;
+
+      case 'whoami':
+        newHistory.push({
+          type: 'output',
+          content: (
+            <div className="space-y-1 mt-1">
+              <p className="text-white font-medium">Faraz Kayan Haque</p>
+              <br/>
+              <p>student</p>
+              <p>builder</p>
+              <p>self-hosting enthusiast</p>
+              <p>professional "wait, I could build that" guy</p>
+            </div>
+          )
+        });
+        break;
+
+      case 'neofetch':
+        newHistory.push({
+          type: 'output',
+          content: (
+            <div className="flex gap-4 text-[#C4C4CA] font-mono text-sm mt-1">
+              <div className="text-[#10B981]">
+                <pre>{`   /\\_/\\
+  ( o.o )
+   > ^ < `}</pre>
+              </div>
+              <div className="flex flex-col justify-center">
+                <p><span className="text-[#10B981]">OS:</span> FarazOS</p>
+                <p><span className="text-[#10B981]">Host:</span> faraz.is-a.dev</p>
+                <p><span className="text-[#10B981]">Shell:</span> definitely-bash</p>
+                <p><span className="text-[#10B981]">Terminal:</span> portfolio-terminal</p>
+                <p><span className="text-[#10B981]">Uptime:</span> suspiciously long</p>
+                <p><span className="text-[#10B981]">Status:</span> building</p>
+              </div>
+            </div>
+          )
+        });
+        break;
+
       case 'about':
         newHistory.push({
           type: 'output',
@@ -108,115 +330,14 @@ export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, se
         });
         break;
 
-      case 'ideas':
-        newHistory.push({ type: 'output', content: 'fetching ideas...' });
-        setHistory(newHistory);
-        try {
-          const res = await fetch('/api/ideas/approved');
-          if (res.ok) {
-            const data = await res.json();
-            if (data.length > 0) {
-              const idea = data[0];
-              setHistory(prev => [...prev.slice(0, -1), {
-                type: 'output',
-                content: renderIdea(idea)
-              }]);
-            } else {
-              setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'the vault is currently empty.' }]);
-            }
-          } else {
-            setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'failed to fetch ideas.' }]);
-          }
-        } catch (e) {
-          setHistory(prev => [...prev.slice(0, -1), { type: 'output', content: 'failed to fetch ideas.' }]);
-        }
-        return;
-
-      case 'random':
-        newHistory.push({ type: 'output', content: 'searching the vault...' });
-        setHistory(newHistory);
-        try {
-          const res = await fetch('/api/ideas/approved');
-          if (res.ok) {
-            const data = await res.json();
-            if (data.length > 0) {
-              const randIdea = data[Math.floor(Math.random() * data.length)];
-              setHistory(prev => [...prev, {
-                type: 'output',
-                content: renderIdea(randIdea)
-              }]);
-            } else {
-              setHistory(prev => [...prev, { type: 'output', content: 'the vault is empty.' }]);
-            }
-          } else {
-            setHistory(prev => [...prev, { type: 'output', content: 'failed to fetch ideas.' }]);
-          }
-        } catch (e) {
-          setHistory(prev => [...prev, { type: 'output', content: 'failed to fetch ideas.' }]);
-        }
-        return;
-
-      case 'submit':
-        setIsSubmitting(true);
-        setSubmitStep(1);
-        newHistory.push({ type: 'output', content: 'What do you wish existed?' });
-        break;
-
-      case 'clear':
-        setHistory([]);
-        setInput('');
-        return;
-
-      case 'exit':
-        onClose();
-        return;
-        
-      case 'neofetch':
-        newHistory.push({
-          type: 'output',
-          content: (
-            <div className="flex gap-4 text-[#C4C4CA] font-mono text-sm">
-              <div className="text-[#A855F7]">
-                <pre>{`   /\\_/\\   
-  ( o.o )  
-   > ^ <   `}</pre>
-              </div>
-              <div className="flex flex-col justify-center">
-                <p><span className="text-[#A855F7]">OS:</span> Portfolio OS v1.0</p>
-                <p><span className="text-[#A855F7]">Host:</span> Faraz Kayan</p>
-                <p><span className="text-[#A855F7]">Uptime:</span> probably too long</p>
-                <p><span className="text-[#A855F7]">Shell:</span> bash</p>
-              </div>
-            </div>
-          )
-        });
-        break;
-
-      case 'sudo':
-        newHistory.push({ type: 'output', content: 'permission denied.\n\nnice try.' });
-        break;
-      
-      case 'sudo pet companion':
-      case 'pet companion':
-      case 'pet':
-        setIsCat(true);
-        newHistory.push({ type: 'output', content: 'purr...' });
-        break;
-
-      case 'whoami':
-        newHistory.push({ type: 'output', content: 'someone who probably has\ntoo many projects open right now.' });
-        break;
-        
-      case 'coffee':
-      case 'brew':
-        newHistory.push({ type: 'output', content: "Error 418: I'm a teapot." });
-        break;
-        
-      case 'cat':
-        newHistory.push({ type: 'output', content: 'meow.' });
-        break;
-
       case 'suki':
+        const sukiMessages = [
+          "He has no idea what you're doing.",
+          "He demands food.",
+          "He is judging your typing speed.",
+          "He walks across the keyboard: asdfghjkl;",
+          "He refuses to cooperate."
+        ];
         newHistory.push({
           type: 'output',
           content: (
@@ -227,94 +348,50 @@ export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, se
               <br/>
               <p>Suki has entered the terminal.</p>
               <br/>
-              <p>He is judging your typing speed.</p>
+              <p>{sukiMessages[Math.floor(Math.random() * sukiMessages.length)]}</p>
             </div>
           )
         });
         break;
 
+      case 'submit':
+        setIsSubmitting(true);
+        setSubmitStep(1);
+        newHistory.push({ type: 'output', content: 'GOT AN IDEA?\n\nWhat should I build?' });
+        break;
+
+      case 'admin':
+        if (isAdminAuthenticated) {
+          newHistory.push({ type: 'output', content: 'fetching admin vault...' });
+          setHistory(newHistory);
+          await fetchAdminIdeas(newHistory);
+        } else {
+          setIsAdminLogin(true);
+          newHistory.push({ type: 'output', content: 'password: ' });
+          setHistory(newHistory);
+        }
+        return;
+
+      case 'logout':
+        if (isAdminAuthenticated) {
+          await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+          setIsAdminAuthenticated(false);
+          newHistory.push({ type: 'output', content: 'logged out.' });
+        } else {
+          newHistory.push({ type: 'output', content: `command not found: ${trimmed}` });
+        }
+        break;
+
+      case 'exit':
+        onClose();
+        return;
+
       default:
         newHistory.push({ type: 'output', content: `command not found: ${trimmed}` });
     }
-
-    setHistory(newHistory);
-  };
-
-  const handleSubmissionStep = async (val: string) => {
-    const newHistory = [...history, { type: 'input', content: `> ${val}` }];
-    
-    if (submitStep === 1) {
-      setDraftIdea({ ...draftIdea, idea: val });
-      newHistory.push({ type: 'output', content: 'Why would you want it?' });
-      setSubmitStep(2);
-    } else if (submitStep === 2) {
-      setDraftIdea({ ...draftIdea, description: val });
-      newHistory.push({ type: 'output', content: 'What would it be? [web] [mobile] [desktop] [other]' });
-      setSubmitStep(3);
-    } else if (submitStep === 3) {
-      setDraftIdea({ ...draftIdea, platform: val });
-      newHistory.push({ type: 'output', content: 'Want to leave a name?' });
-      setSubmitStep(4);
-    } else if (submitStep === 4) {
-      const finalIdea = { ...draftIdea, optional_name: val || 'anonymous' };
-      setDraftIdea(finalIdea);
-      setIsSubmitting(false);
-      setSubmitStep(0);
-      newHistory.push({ type: 'output', content: 'saving to vault...' });
-      setHistory(newHistory);
-      
-      try {
-        const res = await fetch('/api/ideas', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(finalIdea)
-        });
-        const saved = await res.json();
-        setHistory(prev => [...prev, {
-          type: 'output',
-          content: (
-            <div className="text-[#10B981] mt-2">
-              ✓ idea received<br/><br/>
-              <span className="text-white">{saved.id}</span><br/><br/>
-              added to the vault.<br/><br/>
-              Maybe Faraz will build it someday.
-            </div>
-          )
-        }]);
-      } catch (e) {
-        setHistory(prev => [...prev, { type: 'output', content: 'failed to save idea. something broke.' }]);
-      }
-      return;
-    }
     
     setHistory(newHistory);
   };
-
-  const renderIdea = (idea: any) => (
-    <div className="border border-white/10 bg-[#161618] p-4 rounded-lg my-2 max-w-lg space-y-4">
-      <div className="flex justify-between items-center text-xs text-[#94949F] font-mono">
-        <span>{idea.id}</span>
-        <span>{idea.platform}</span>
-      </div>
-      <p className="text-[#E4E4E5] font-medium text-lg leading-snug">"{idea.idea}"</p>
-      {idea.description && <p className="text-sm text-[#94949F]">{idea.description}</p>}
-      <div className="flex justify-between items-center pt-2 border-t border-white/5">
-        <span className="text-xs text-[#71717A]">by {idea.optional_name}</span>
-        <button 
-          onClick={() => {
-            const el = document.getElementById(`like-${idea.id}`);
-            if (el) el.innerText = `${(idea.might_build_count || 0) + 1} people might build this`;
-          }}
-          className="text-xs text-[#A855F7] hover:text-[#D8B4FE] transition-colors"
-        >
-          I might build this
-        </button>
-      </div>
-      <div id={`like-${idea.id}`} className="text-xs text-[#71717A] text-right mt-1">
-        {idea.might_build_count || 0} people might build this
-      </div>
-    </div>
-  );
 
   return (
     <motion.div 
@@ -351,10 +428,10 @@ export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, se
           }}
           className="flex items-center gap-2 mt-2"
         >
-          <span className="text-[#10B981]">{isSubmitting ? '>' : 'faraz@portfolio ~ $'}</span>
+          <span className="text-[#10B981]">{isAdminLogin ? '' : isSubmitting ? '>' : 'faraz@portfolio ~ $'}</span>
           <input
             ref={inputRef}
-            type="text"
+            type={isAdminLogin ? "password" : "text"}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-transparent border-none outline-none text-white font-mono shadow-none"
@@ -367,3 +444,5 @@ export const TerminalOverlay = ({ onClose, setIsCat }: { onClose: () => void, se
     </motion.div>
   );
 };
+
+export default TerminalOverlay;
