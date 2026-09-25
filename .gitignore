@@ -4,13 +4,6 @@ dist/
 coverage/
 .DS_Store
 *.log
-.env
-.env.*
+.env*
 !.env.example
-
-.kilo/
-.playwright-mcp/
-.vscode/
-
-old-portfolio/
-ideas_db.json
+old_shit/

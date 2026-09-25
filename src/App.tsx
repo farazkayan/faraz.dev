@@ -1,33 +1,84 @@
-import { Navigation } from './components/Navigation';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Education } from './components/Education';
-import { Skills } from './components/Skills';
-import { Projects } from './components/Projects';
-import { Homelab } from './components/Homelab';
-import { Hobbies } from './components/Hobbies';
-import { Contact } from './components/Contact';
-import { Footer } from './components/Footer';
-import { Companion } from './components/Companion';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { Navbar } from './components/Navbar';
+import { HeroHome } from './components/HeroHome';
+import { AboutSection } from './components/AboutSection';
+import { SkillsSection } from './components/SkillsSection';
+import { ProjectsSection } from './components/ProjectsSection';
+import { HomelabSection } from './components/HomelabSection';
+import { HobbiesSection } from './components/HobbiesSection';
+import { ContactSection } from './components/ContactSection';
+
+const AllProjectsPage = lazy(() =>
+  import('./components/AllProjectsPage').then((m) => ({
+    default: m.AllProjectsPage,
+  }))
+);
 
 export default function App() {
-  return (
-    <div className="min-h-screen bg-[#111113] text-[#F5F5F5] font-sans selection:bg-[#9333EA]/30">
-      <Navigation />
-      
-      <main>
-        <Hero />
-        <About />
-        <Education />
-        <Skills />
-        <Projects />
-        <Homelab />
-        <Hobbies />
-        <Contact />
-      </main>
+  const [isAllProjectsView, setIsAllProjectsView] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (
+      window.location.pathname === '/projects' ||
+      window.location.hash === '#/projects' ||
+      window.location.search.includes('view=projects')
+    );
+  });
 
-      <Footer />
-      <Companion />
+  useEffect(() => {
+    const handlePopState = () => {
+      const isProjects =
+        window.location.pathname === '/projects' ||
+        window.location.hash === '#/projects' ||
+        window.location.search.includes('view=projects');
+      setIsAllProjectsView(isProjects);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleGoToAllProjects = () => {
+    window.history.pushState(null, '', '/projects');
+    setIsAllProjectsView(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToPortfolio = () => {
+    window.history.pushState(null, '', '/');
+    setIsAllProjectsView(false);
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById('projects');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  };
+
+  if (isAllProjectsView) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-[#09090b]" />}>
+        <AllProjectsPage onBack={handleBackToPortfolio} />
+      </Suspense>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans selection:bg-purple-900/40 selection:text-purple-200">
+      {/* Floating Limelight Navbar */}
+      <Navbar />
+
+      {/* Main Content Flow */}
+      <main className="flex-1 flex flex-col">
+        <HeroHome />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection onViewAllProjects={handleGoToAllProjects} />
+        <HomelabSection />
+        <HobbiesSection />
+        <ContactSection />
+      </main>
     </div>
   );
 }
