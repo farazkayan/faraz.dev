@@ -3,7 +3,7 @@ import { Mail, ArrowRight, Copy, Check, Github, Linkedin, Instagram, Facebook } 
 
 export const ContactSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const email = 'farazkayanhaque.official@gmail.com';
+  const email = 'contact@farazkh.dev';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);

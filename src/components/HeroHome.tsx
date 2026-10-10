@@ -115,7 +115,7 @@ export const HeroHome: React.FC = () => {
 
             {/* Quiet Say Hello Link */}
             <a
-              href="mailto:farazkayanhaque.official@gmail.com"
+              href="mailto:contact@farazkh.dev"
               className="text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1.5 group py-1 touch-manipulation w-fit"
             >
               <span>say hello</span>
