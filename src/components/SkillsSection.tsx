@@ -392,7 +392,7 @@ export const SkillsSection: React.FC = () => {
     <div className="border-t border-zinc-900/60">
       <section
         id="skills"
-        className="scroll-mt-24 sm:scroll-mt-28 py-16 sm:py-28 lg:py-32 px-5 sm:px-8 lg:px-12 max-w-7xl mx-auto w-full select-none relative"
+        className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full relative"
       >
         {/* Subtle Destination Atmosphere: Technical Teal */}
         <div
@@ -403,7 +403,7 @@ export const SkillsSection: React.FC = () => {
             HEADER & INTRODUCING THE TOOLKIT
             Tone: Technical Teal / Mint
             ==================================================== */}
-        <div className="space-y-4 mb-10 sm:mb-16">
+        <div className="space-y-4 mb-10 sm:mb-12">
           <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
             <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
               <span className="text-teal-400 font-semibold">03</span>
@@ -421,16 +421,15 @@ export const SkillsSection: React.FC = () => {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6">
             <div>
               <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white font-display">
-                The Toolkit
+                Tools I use
               </h2>
               <p className="text-sm xs:text-base sm:text-lg text-zinc-400 font-display mt-0.5 sm:mt-1">
-                The things I build with.
+                A toolkit built project by project.
               </p>
             </div>
 
             <p className="text-xs sm:text-[13.5px] text-zinc-400 max-w-xl font-normal leading-relaxed lg:text-right">
-              I’m definitely not an expert in all of these. Most of this I picked up by
-              vibe coding and just trying to make things work. But here’s what I actually use.
+              I’m still learning many of these. Here are the tools I’ve picked up by building things and solving problems that mattered to me.
             </p>
           </div>
         </div>
@@ -442,7 +441,7 @@ export const SkillsSection: React.FC = () => {
             ==================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
           {/* Left / Primary Area: All Categories & Skills remain visible */}
-          <div className="lg:col-span-7 xl:col-span-8 space-y-6 sm:space-y-8">
+          <div className="lg:col-span-7 xl:col-span-8 grid gap-4 sm:gap-5 lg:grid-cols-1 xl:grid-cols-2">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isAi = cat.isAiCategory;
@@ -450,7 +449,7 @@ export const SkillsSection: React.FC = () => {
                 <div
                   key={cat.num}
                   className={`
-                    rounded-2xl p-4 sm:p-6 transition-all duration-200 border
+                    rounded-2xl p-4 sm:p-5 transition-all duration-200 border
                     ${
                       isAi
                         ? 'bg-[#0f0e15]/60 border-purple-900/30'
@@ -479,7 +478,7 @@ export const SkillsSection: React.FC = () => {
                   </div>
 
                   {/* Skills Grid: All skills neatly aligned and always visible */}
-                  <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-2.5">
+                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
                     {cat.skills.map((skill) => {
                       const isSelected = selectedSkill.id === skill.id;
                       return (
@@ -488,7 +487,7 @@ export const SkillsSection: React.FC = () => {
                           onClick={() => handleSelectSkill(skill)}
                           className={`
                             group relative px-3 py-2.5 sm:px-3.5 sm:py-2.5 rounded-xl text-left transition-all duration-150
-                            border cursor-pointer outline-none flex items-center justify-between min-h-[44px] touch-manipulation
+                            border cursor-pointer outline-none flex items-center justify-between min-h-[44px] touch-manipulation focus-visible:ring-2 focus-visible:ring-teal-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0e]
                             ${
                               isSelected
                                 ? 'bg-teal-950/40 border-teal-500/50 text-white shadow-sm ring-1 ring-teal-500/30'
@@ -542,7 +541,7 @@ export const SkillsSection: React.FC = () => {
             id="selected-skill-detail"
             className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-28 lg:self-start scroll-mt-28"
           >
-            <div className="rounded-2xl bg-[#0c0c0e]/95 border border-zinc-800/90 p-5 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl">
+              <div className="rounded-2xl bg-[#0c0c0e] border border-zinc-800/90 p-5 sm:p-7 shadow-[0_18px_48px_rgba(0,0,0,0.28)]">
               {/* Header marker */}
               <div className="flex items-center justify-between pb-3 sm:pb-3.5 mb-4 sm:mb-5 border-b border-zinc-900 text-xs font-mono">
                 <div className="flex items-center gap-2 text-teal-400">

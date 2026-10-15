@@ -16,7 +16,7 @@ const buildSteps: BuildStep[] = [
   {
     num: '02',
     title: 'Investigate',
-    description: 'Ask Claude or check docs to see what went wrong.',
+    description: 'Check the docs and work out what went wrong.',
   },
   {
     num: '03',
@@ -44,7 +44,7 @@ export const AboutSection: React.FC = () => {
           ======================================================== */}
       <section
         id="about"
-        className="scroll-mt-20 relative min-h-0 sm:min-h-[90svh] xl:h-[100svh] xl:max-h-[1080px] flex flex-col justify-between py-16 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full select-none overflow-hidden"
+        className="scroll-mt-20 relative space-y-12 py-20 sm:space-y-16 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full overflow-hidden"
       >
         {/* Subtle Destination Atmosphere: Warm Violet */}
         <div
@@ -55,7 +55,7 @@ export const AboutSection: React.FC = () => {
             01 / HOW THIS STARTED
             Clean statement (Left) + Personal story (Right)
             ---------------------------------------------------- */}
-        <div className="py-2 sm:my-auto">
+        <div>
           <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-500 mb-3 sm:mb-4">
             <span className="text-purple-400 font-semibold">01</span>
             <span className="text-zinc-700">/</span>
@@ -64,12 +64,12 @@ export const AboutSection: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-12 items-start">
             <div className="lg:col-span-6">
-              <h2 className="text-xl xs:text-2xl sm:text-3xl lg:text-[32px] font-medium tracking-tight text-white font-display leading-[1.2] sm:leading-[1.18]">
+              <h2 className="text-2xl xs:text-3xl sm:text-4xl font-medium tracking-tight text-white font-display leading-[1.12]">
                 I see something that doesn’t exist, and I decide to build it.
               </h2>
             </div>
 
-            <div className="lg:col-span-6 space-y-3 text-xs sm:text-[13.5px] leading-relaxed text-zinc-400 font-normal">
+            <div className="lg:col-span-6 space-y-4 text-sm sm:text-[15px] leading-7 text-zinc-400 font-normal">
               <p>
                 I didn’t get into tech with some crazy master plan. Honestly, something
                 about it just naturally attracts me. It’s incredibly satisfying to take a
@@ -89,7 +89,7 @@ export const AboutSection: React.FC = () => {
             02 / HOW I BUILD & LEARN
             Clean vertical sequence on mobile, 5-card row on desktop
             ---------------------------------------------------- */}
-        <div className="py-6 sm:py-3 sm:my-auto border-t border-zinc-900/60 sm:border-none">
+        <div className="border-t border-zinc-900/70 pt-8 sm:pt-10">
           <div className="flex items-center justify-between text-[11px] font-mono text-zinc-500 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
               <span className="text-purple-400 font-semibold">02</span>
@@ -107,7 +107,7 @@ export const AboutSection: React.FC = () => {
                 key={step.num}
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.15 }}
-                className="group rounded-xl p-3.5 sm:p-4.5 bg-[#0c0c0e]/80 border border-zinc-800/80 hover:border-purple-500/40 hover:bg-[#0e0d14] transition-all duration-200 flex flex-col justify-between shadow-sm"
+                className="group rounded-xl p-4 sm:p-5 bg-[#0c0c0e]/70 border border-zinc-800/70 hover:border-purple-500/35 hover:bg-[#0e0d14] transition-all duration-200 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between sm:block">
@@ -119,7 +119,7 @@ export const AboutSection: React.FC = () => {
                   <h3 className="text-sm sm:text-[15px] font-medium font-display text-white mt-1 mb-0.5 sm:mt-1.5 sm:mb-1 group-hover:text-purple-200 transition-colors">
                     {step.title}
                   </h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed font-normal">
+                  <p className="text-[13px] text-zinc-400 leading-relaxed font-normal">
                     {step.description}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export const AboutSection: React.FC = () => {
             03 / WHERE I'M GOING + CLOSING THOUGHT
             Quiet paragraph (Left) + Minimal quote (Right)
             ---------------------------------------------------- */}
-        <div className="py-2 pt-5 sm:pt-4 border-t border-zinc-900/80 sm:my-auto">
+        <div className="border-t border-zinc-900/80 pt-8 sm:pt-9">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-10 items-start">
             <div className="lg:col-span-7 space-y-2">
               <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-500">
@@ -141,7 +141,7 @@ export const AboutSection: React.FC = () => {
                 <span className="uppercase tracking-widest text-zinc-400">Where I’m going</span>
               </div>
 
-              <p className="text-xs sm:text-[13.5px] text-zinc-400 font-normal leading-relaxed max-w-xl">
+              <p className="text-sm sm:text-[15px] text-zinc-400 font-normal leading-7 max-w-xl">
                 I eventually want to build businesses. Technology isn’t just something I
                 want to study—it’s something I want to actually use to build things people
                 want. I don’t have it all figured out yet, but growing with the tech feels
@@ -166,7 +166,7 @@ export const AboutSection: React.FC = () => {
           ======================================================== */}
       <section
         id="education"
-        className="scroll-mt-20 relative min-h-0 sm:min-h-[90svh] xl:h-[100svh] xl:max-h-[1080px] flex flex-col justify-between py-16 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full select-none overflow-hidden"
+        className="scroll-mt-20 relative py-20 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full overflow-hidden"
       >
         {/* Subtle Destination Atmosphere: Cool Blue */}
         <div
@@ -192,7 +192,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Timeline Progression & Cards */}
-        <div className="py-4 sm:my-auto space-y-6">
+        <div className="mt-10 sm:mt-14 space-y-5 sm:space-y-7">
           {/* Desktop Horizontal Timeline Header with Cool Blue Progression */}
           <div className="hidden md:flex items-center justify-between text-xs font-mono text-zinc-500 px-1">
             <span className="text-zinc-400">2015</span>
@@ -285,11 +285,6 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Quiet Footer Note */}
-        <div className="text-xs font-mono text-zinc-600 flex items-center gap-2 pt-2">
-          <span>academic progression</span>
-          <span className="text-zinc-700">·</span>
-          <span className="text-sky-400/70">then → now</span>
-        </div>
       </section>
     </div>
   );

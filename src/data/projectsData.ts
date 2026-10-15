@@ -131,6 +131,11 @@ export const projects: ProjectData[] = [
     ],
     links: [
       {
+        label: 'Live demo',
+        url: 'https://getsoundmesh.pages.dev',
+        type: 'live',
+      },
+      {
         label: 'View on GitHub',
         url: 'https://github.com/farazkayan/SoundMesh',
         type: 'github',

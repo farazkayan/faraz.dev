@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 interface ServiceItem {
   id: string;
@@ -7,176 +7,196 @@ interface ServiceItem {
   category: string;
   whatItIs: string;
   whyIRunIt: string;
-  whatItTaughtMe: string;
+  whatILearned: string;
 }
 
 const services: ServiceItem[] = [
   {
-    id: 'jellyfin',
-    name: 'Jellyfin',
-    category: 'MEDIA',
+    id: 'open-webui',
+    name: 'Open WebUI',
+    category: 'AI interface',
     whatItIs:
-      'A free, open-source media system that puts you in control of managing and streaming your media.',
+      'A web interface for interacting with AI models and compatible model providers.',
     whyIRunIt:
-      'Because I wanted to stop paying for multiple streaming services and wanted full ownership of my media library.',
-    whatItTaughtMe:
-      'Media encoding, hardware acceleration (GPU passthrough in Docker), and bandwidth management.',
+      'It gives me a central interface for experimenting with AI and accessing models through my own infrastructure.',
+    whatILearned:
+      'Self-hosting AI interfaces, configuring model connections, managing application configuration, and integrating AI into a personal server environment.',
+  },
+  {
+    id: 'memos',
+    name: 'Memos',
+    category: 'Personal notes',
+    whatItIs: 'An open-source, self-hosted application for capturing and organizing notes.',
+    whyIRunIt:
+      'It gives me a lightweight place to keep personal notes on infrastructure and everyday ideas.',
+    whatILearned:
+      'Deploying a persistent web application, configuring access, and maintaining application data on my own server.',
   },
   {
     id: 'immich',
     name: 'Immich',
-    category: 'PHOTOS / MEMORIES',
-    whatItIs:
-      'A high-performance self-hosted photo and video backup solution with local machine-learning facial recognition and reverse geocoding.',
+    category: 'Photo and video management',
+    whatItIs: 'A self-hosted photo and video management platform.',
     whyIRunIt:
-      'Because I wanted full ownership and privacy for my personal photos and memories without paying recurring cloud storage subscription fees.',
-    whatItTaughtMe:
-      'Managing multi-container microservice stacks (PostgreSQL with pgvector, Redis, machine-learning workers), database migrations, and persistent background synchronization.',
+      'It gives me a private, self-managed alternative for organizing and accessing personal media.',
+    whatILearned:
+      'Deploying a multi-component application, managing media storage, understanding background processing, and considering the resource requirements of machine-learning features.',
   },
   {
-    id: 'pihole',
-    name: 'Pi-hole',
-    category: 'NETWORK',
-    whatItIs:
-      'A network-wide DNS sinkhole that blocks advertisements and tracking domains before they ever reach devices on the local network.',
+    id: 'jellyfin',
+    name: 'Jellyfin',
+    category: 'Media streaming',
+    whatItIs: 'An open-source media server for organizing and streaming personal media.',
     whyIRunIt:
-      'To protect every phone, laptop, and device on the home network from ad trackers without needing to install browser extensions on each individual machine.',
-    whatItTaughtMe:
-      'DNS query resolution, local upstream routing, DHCP configuration, regex domain blocking rules, and network perimeter hygiene.',
+      'I use it as the foundation for a self-hosted media library that I can access through compatible clients.',
+    whatILearned:
+      'Media-server deployment, library configuration, streaming connectivity, and the practical constraints of running media services on low-power hardware.',
   },
   {
     id: 'nextcloud',
     name: 'Nextcloud',
-    category: 'FILES',
-    whatItIs:
-      'A self-hosted productivity and private cloud storage platform providing synchronized file storage, calendar, and contacts across devices.',
+    category: 'Personal cloud storage',
+    whatItIs: 'A self-hosted platform for storing, managing, and accessing files.',
     whyIRunIt:
-      'To have a truly private personal cloud drive accessible from my laptop and phone without trusting third-party cloud storage providers with sensitive files.',
-    whatItTaughtMe:
-      'WebDAV protocol behavior, PHP-FPM performance tuning, database indexing for large file trees, and Redis caching for file-locking concurrency.',
+      'It gives me control over my own cloud-storage environment rather than depending entirely on a third-party storage provider.',
+    whatILearned:
+      'Persistent data management, application configuration, trusted-domain settings, storage planning, and troubleshooting stateful services.',
   },
   {
-    id: 'minecraft',
-    name: 'Minecraft',
-    category: 'GAMES',
+    id: 'n8n',
+    name: 'n8n',
+    category: 'Workflow automation',
     whatItIs:
-      'A dedicated self-hosted Paper/Fabric Minecraft server running in an isolated container with automated world backups.',
+      'A workflow automation platform that connects applications, APIs, and services.',
     whyIRunIt:
-      'So friends and I could play together in a persistent multiplayer world without paying monthly rental host fees or dealing with performance throttling.',
-    whatItTaughtMe:
-      'JVM memory allocation flags, garbage collection tuning (Aikar flags), server tick-rate profiling, and automated cron world backup scripts.',
+      'It provides a self-hosted environment for experimenting with automations and connecting different parts of my digital workflow.',
+    whatILearned:
+      'Workflow design, API integrations, handling credentials, connecting services, and automating tasks through event-driven processes.',
+  },
+  {
+    id: 'homarr',
+    name: 'Homarr',
+    category: 'Homelab dashboard',
+    whatItIs:
+      'A customizable dashboard for bringing self-hosted services together in one interface.',
+    whyIRunIt:
+      'It gives me a central homepage for navigating my homelab and keeping its services organized.',
+    whatILearned:
+      'Service organization, dashboard configuration, application integration, and designing a more convenient interface for managing a multi-service environment.',
+  },
+  {
+    id: 'guacamole',
+    name: 'Apache Guacamole',
+    category: 'Browser-based remote access',
+    whatItIs:
+      'A clientless remote desktop gateway that supports protocols such as RDP, VNC, and SSH.',
+    whyIRunIt:
+      'I have explored using browser-based access to remote computers without needing a dedicated desktop client.',
+    whatILearned:
+      'Remote-access architecture, connection configuration, web-based gateways, and the security considerations involved in exposing administrative access.',
+  },
+  {
+    id: 'continuity-mcp',
+    name: 'Continuity + Obsidian',
+    category: 'AI memory · MCP integration',
+    whatItIs:
+      'Continuity is my custom memory-infrastructure project, designed to connect structured memory operations with an Obsidian-based vault through MCP tools.',
+    whyIRunIt:
+      'I am building a way for AI tools to search memories, retrieve related information, and propose memory changes while keeping the underlying knowledge accessible in a human-readable vault.',
+    whatILearned:
+      'MCP server development, tool integration, structured memory retrieval, relationships between memories, and designing human-review workflows for AI-assisted knowledge management.',
   },
 ];
 
 export const HomelabSection: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string>('jellyfin');
-
-  const selectedService =
-    services.find((s) => s.id === selectedId) || services[0];
+  const selectedService = services.find((service) => service.id === selectedId)!;
+  const serviceDetails = [
+    { label: 'What it is', text: selectedService.whatItIs },
+    { label: 'Why I run it', text: selectedService.whyIRunIt },
+    { label: 'What I learned', text: selectedService.whatILearned },
+  ];
 
   return (
     <section
       id="homelab"
-      className="scroll-mt-24 sm:scroll-mt-28 py-16 sm:py-24 px-5 sm:px-8 lg:px-12 max-w-4xl mx-auto w-full select-none relative overflow-hidden"
+      className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-6xl mx-auto w-full relative overflow-hidden"
     >
-      {/* Subtle Destination Atmosphere: Technical Green */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(52,211,153,0.03)_0%,transparent_65%)]"
       />
-      <div className="space-y-8 sm:space-y-12">
-        {/* Header & Intro - Tone: Quiet System-Status Green */}
+
+      <div className="space-y-9 sm:space-y-12">
         <div className="space-y-3 sm:space-y-4">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 border-b border-zinc-900 pb-3">
-            <span className="text-emerald-400 font-semibold">05</span>
+          <div className="flex items-center gap-2 border-b border-zinc-900 pb-3 text-xs font-mono text-zinc-500">
+            <span className="font-semibold text-emerald-400">05</span>
             <span className="text-zinc-700">/</span>
-            <span className="uppercase tracking-widest text-zinc-300 font-medium">
+            <span className="font-medium uppercase tracking-widest text-zinc-300">
               Infrastructure
             </span>
           </div>
 
           <div className="space-y-2.5 sm:space-y-3">
             <h2 className="text-2xl xs:text-3xl sm:text-4xl font-medium tracking-tight text-white font-display">
-              Things I actually run.
+              Things I run at home.
             </h2>
-
-            <div className="space-y-2 text-xs sm:text-sm text-zinc-400 font-normal leading-relaxed max-w-2xl">
+            <div className="max-w-3xl space-y-2 text-sm leading-7 text-zinc-400 sm:text-[15px]">
               <p>
-                I didn’t learn Linux and Docker to get a certificate. I learned them because self-hosting is
-                incredibly useful, and honestly, it’s just cool.
+                Ubuntu 24.04 and CasaOS run on a Dell Inspiron 7348 with an Intel
+                Core i5-5200U. 4 GB of RAM was last confirmed; an upgrade to 8 GB
+                is unverified.
               </p>
-              <p className="text-zinc-400">
-                I got curious, installed something, broke something, fixed it, and then somehow ended up running
-                half my own infrastructure.
+              <p>
+                Docker runs the services, and Cloudflare Tunnel provides
+                CGNAT-compatible access.
               </p>
             </div>
           </div>
         </div>
 
-        {/* ====================================================
-            MINIMAL INFRASTRUCTURE FLOW
-            Quiet, monochrome infrastructure sketch with system-status green accents
-            ==================================================== */}
-        <div className="space-y-5 sm:space-y-6 pt-1 sm:pt-2">
-          {/* Top Nodes: Linux Server -> Docker Engine */}
+        <div className="space-y-5 pt-1 sm:space-y-6 sm:pt-2">
           <div className="flex flex-col items-center">
-            {/* Linux Server (CasaOS) Node */}
-            <div className="px-3.5 py-2 sm:px-4 sm:py-2 rounded-lg bg-zinc-950/90 border border-zinc-800 text-xs font-mono text-zinc-200 shadow-sm flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 shrink-0" />
-              <span>Linux Server</span>
-              <span className="text-zinc-500 text-[11px]">(CasaOS)</span>
+            <div className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/90 px-4 py-2.5 text-xs font-mono text-zinc-200 shadow-sm">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400/80" />
+              <span>Dell Inspiron 7348</span>
+              <span className="text-[11px] text-zinc-500">(Ubuntu 24.04 · CasaOS)</span>
             </div>
 
-            {/* Connecting line */}
-            <div className="w-[1px] h-5 sm:h-6 bg-zinc-800" />
-            <div className="text-[9px] sm:text-[10px] text-zinc-600 -my-1">▼</div>
+            <div className="h-5 w-px bg-zinc-800 sm:h-6" />
+            <span aria-hidden="true" className="-my-1 text-[9px] text-zinc-600">▼</span>
 
-            {/* Docker Engine Node */}
-            <div className="px-3.5 py-2 sm:px-4 sm:py-2 rounded-lg bg-zinc-950/90 border border-zinc-800 text-xs font-mono text-zinc-300 shadow-sm mt-1 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 shrink-0" />
-              <span>Docker Engine</span>
+            <div className="mt-1 flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/90 px-4 py-2.5 text-xs font-mono text-zinc-300 shadow-sm">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400/80" />
+              <span>Docker</span>
             </div>
 
-            {/* Connecting line to horizontal branch */}
-            <div className="w-[1px] h-5 sm:h-6 bg-zinc-800" />
+            <div className="h-5 w-px bg-zinc-800 sm:h-6" />
           </div>
 
-          {/* Desktop Horizontal Tree */}
-          <div className="hidden md:block relative">
-            {/* Horizontal Branch Line */}
-            <div className="w-full h-[1px] bg-zinc-800 relative">
-              <div className="absolute left-1/2 -top-1 w-[1px] h-2 bg-zinc-800" />
+          <div className="hidden md:block">
+            <div className="relative h-px w-full bg-zinc-800">
+              <div className="absolute left-1/2 -top-1 h-2 w-px bg-zinc-800" />
             </div>
-
-            {/* Service Buttons on the Tree */}
             <div className="grid grid-cols-5 gap-3 pt-3">
               {services.map((service) => {
                 const isSelected = service.id === selectedService.id;
+
                 return (
                   <div key={service.id} className="flex flex-col items-center">
-                    {/* Tiny connector down */}
-                    <div className="w-[1px] h-3 bg-zinc-800 -mt-3 mb-1" />
-                    <div className="text-[9px] text-zinc-700 -mt-1.5 mb-1">▼</div>
-
+                    <div aria-hidden="true" className="-mt-3 mb-1 h-3 w-px bg-zinc-800" />
+                    <span aria-hidden="true" className="-mt-1.5 mb-1 text-[9px] text-zinc-700">▼</span>
                     <button
+                      type="button"
                       onClick={() => setSelectedId(service.id)}
-                      className={`
-                        w-full py-2.5 px-2 rounded-lg text-center font-mono text-xs transition-all duration-150 cursor-pointer outline-none min-h-[44px]
-                        ${
-                          isSelected
-                            ? 'bg-zinc-900 border border-emerald-500/60 text-white shadow-sm ring-1 ring-emerald-500/20 font-medium'
-                            : 'bg-zinc-950/60 border border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 hover:bg-zinc-900/40'
-                        }
-                      `}
-                      aria-label={`Select ${service.name}`}
                       aria-pressed={isSelected}
+                      className={`min-h-11 w-full cursor-pointer rounded-lg border px-2.5 py-2 text-center font-mono text-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400/70 ${
+                        isSelected
+                          ? 'border-emerald-500/60 bg-zinc-900 text-white ring-1 ring-emerald-500/20'
+                          : 'border-zinc-800/80 bg-zinc-950/60 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-900/50 hover:text-zinc-200'
+                      }`}
                     >
-                      <div className="flex items-center justify-center gap-1.5">
-                        {isSelected && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 animate-pulse" />
-                        )}
-                        <span className="truncate">{service.name}</span>
-                      </div>
+                      {service.name}
                     </button>
                   </div>
                 );
@@ -184,32 +204,30 @@ export const HomelabSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Flow View: Clean Vertical arrangement */}
-          <div className="md:hidden space-y-2 pt-1">
-            <div className="text-center text-[11px] font-mono text-zinc-500 mb-2">▼ Active Services</div>
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
+          <div className="space-y-2 pt-1 md:hidden">
+            <p className="mb-2 text-center text-[11px] font-mono text-zinc-500">
+              Known services
+            </p>
+            <div className="grid grid-cols-1 gap-2 xs:grid-cols-2">
               {services.map((service) => {
                 const isSelected = service.id === selectedService.id;
+
                 return (
                   <button
                     key={service.id}
+                    type="button"
                     onClick={() => setSelectedId(service.id)}
-                    className={`
-                      py-3 px-3.5 rounded-xl text-left font-mono text-xs transition-all duration-150 cursor-pointer outline-none flex items-center justify-between min-h-[44px] touch-manipulation
-                      ${
-                        isSelected
-                          ? 'bg-zinc-900 border border-emerald-500/60 text-white shadow-sm ring-1 ring-emerald-500/20 font-medium'
-                          : 'bg-zinc-950/70 border border-zinc-800/80 text-zinc-400 hover:text-zinc-200'
-                      }
-                    `}
+                    aria-pressed={isSelected}
+                    className={`flex min-h-11 items-center justify-between gap-2 rounded-xl border px-3.5 py-3 text-left font-mono text-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400/70 ${
+                      isSelected
+                        ? 'border-emerald-500/60 bg-zinc-900 text-white ring-1 ring-emerald-500/20'
+                        : 'border-zinc-800/80 bg-zinc-950/70 text-zinc-400 hover:text-zinc-200'
+                    }`}
                   >
                     <span className="truncate font-medium">{service.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-zinc-500 uppercase">{service.category}</span>
-                      {isSelected && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                      )}
-                    </div>
+                    {isSelected && (
+                      <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                    )}
                   </button>
                 );
               })}
@@ -217,13 +235,9 @@ export const HomelabSection: React.FC = () => {
           </div>
         </div>
 
-        {/* ====================================================
-            SELECTED SERVICE DETAIL
-            The ONLY detail card on the page.
-            ==================================================== */}
         <div className="pt-1 sm:pt-2">
-          <div className="rounded-2xl bg-[#0c0c0e]/95 border border-zinc-800/90 p-5 sm:p-8 shadow-[0_12px_35px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.05)]">
-            <AnimatePresence mode="wait">
+          <div className="rounded-2xl border border-zinc-800/90 bg-[#0c0c0e]/95 p-5 shadow-[0_12px_35px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.05)] sm:p-8">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={selectedService.id}
                 initial={{ opacity: 0, y: 4 }}
@@ -231,46 +245,32 @@ export const HomelabSection: React.FC = () => {
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
                 className="space-y-4 sm:space-y-6"
+                aria-live="polite"
               >
-                {/* Header Row */}
                 <div className="flex items-center justify-between border-b border-zinc-900 pb-3 sm:pb-4">
-                  <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white font-display">
+                  <h3 className="text-xl font-medium tracking-tight text-white font-display sm:text-2xl">
                     {selectedService.name}
                   </h3>
-                  <span className="text-[10.5px] sm:text-[11px] font-mono tracking-widest text-emerald-400 font-semibold uppercase">
+                  <span className="text-[10.5px] font-mono font-semibold tracking-wide text-emerald-400 sm:text-[11px]">
                     {selectedService.category}
                   </span>
                 </div>
 
-                {/* WHAT IT IS */}
-                <div className="space-y-1 sm:space-y-1.5">
-                  <span className="text-[10.5px] sm:text-[11px] font-mono uppercase tracking-widest text-zinc-500 block font-semibold">
-                    What It Is
-                  </span>
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                    {selectedService.whatItIs}
-                  </p>
-                </div>
-
-                {/* WHY I RUN IT */}
-                <div className="space-y-1 sm:space-y-1.5 pt-3 sm:pt-4 border-t border-zinc-900/80">
-                  <span className="text-[10.5px] sm:text-[11px] font-mono uppercase tracking-widest text-zinc-500 block font-semibold">
-                    Why I Run It
-                  </span>
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                    {selectedService.whyIRunIt}
-                  </p>
-                </div>
-
-                {/* WHAT IT TAUGHT ME */}
-                <div className="space-y-1 sm:space-y-1.5 pt-3 sm:pt-4 border-t border-zinc-900/80">
-                  <span className="text-[10.5px] sm:text-[11px] font-mono uppercase tracking-widest text-zinc-500 block font-semibold">
-                    What It Taught Me
-                  </span>
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                    {selectedService.whatItTaughtMe}
-                  </p>
-                </div>
+                {serviceDetails.map((detail, index) => (
+                  <div
+                    key={detail.label}
+                    className={`space-y-1.5 ${
+                      index > 0 ? 'border-t border-zinc-900/80 pt-3 sm:pt-4' : ''
+                    }`}
+                  >
+                    <span className="block text-[10.5px] font-mono font-semibold uppercase tracking-widest text-zinc-500 sm:text-[11px]">
+                      {detail.label}
+                    </span>
+                    <p className="text-xs leading-relaxed text-zinc-300 sm:text-sm">
+                      {detail.text}
+                    </p>
+                  </div>
+                ))}
               </motion.div>
             </AnimatePresence>
           </div>

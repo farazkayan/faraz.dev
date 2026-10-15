@@ -79,141 +79,77 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           1. HEADER & COLLAPSED PREVIEW
           Clean, intentional, predictable layout
           ==================================================== */}
-      <div className="p-5 sm:p-8 lg:p-10 space-y-5 sm:space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
-          <div className="flex items-center gap-2">
+      <div className="p-5 sm:p-8 lg:p-9">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 sm:mb-7">
+          <div className="flex items-center gap-2.5">
             {project.isFeatured ? (
-              <span className={`px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border text-[11px] sm:text-xs font-mono font-medium shadow-sm ${theme.badge}`}>
-                {project.featuredBadge || '★ Featured Project'}
+              <span className={`rounded-full border px-3 py-1 text-[10px] font-mono font-medium sm:text-[11px] ${theme.badge}`}>
+                Featured
               </span>
             ) : (
-              <span className={`px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border text-[11px] sm:text-xs font-mono font-medium ${theme.subtlePill}`}>
-                {project.label}
+              <span className={`rounded-full border px-3 py-1 text-[10px] font-mono font-medium sm:text-[11px] ${theme.subtlePill}`}>
+                Project
               </span>
             )}
+            <span className="text-[11px] font-mono text-zinc-600">{project.label.replace(/^\d+ — /, '')}</span>
           </div>
 
-          {/* Collaborator credit with styled link if present */}
-          {project.collaboration && (
-            <div className="flex items-center gap-3">
-              <div className="text-xs font-mono text-zinc-400">
-                Built with{' '}
-                <a
-                  href={project.collaboration.collaboratorUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline underline-offset-4 transition-colors text-purple-400 hover:text-purple-300"
-                >
-                  {project.collaboration.collaboratorName}
-                </a>
-              </div>
-              {project.links && project.links.length > 0 && (
-                <a
-                  href={project.links[0].url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 transition-colors touch-manipulation"
-                >
-                  <Github className="w-3.5 h-3.5" />
-                  <span className="hidden xs:inline">{project.links[0].label}</span>
-                  <span className="xs:hidden">GitHub</span>
-                </a>
-              )}
-            </div>
-          )}
-
-          {/* Direct link in header if no collaboration */}
-          {!project.collaboration && project.links && project.links.length > 0 && (
-            <a
-              href={project.links[0].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-colors touch-manipulation"
-            >
-              {project.links[0].type === 'github' ? (
-                <Github className="w-3.5 h-3.5" />
-              ) : (
-                <ExternalLink className="w-3.5 h-3.5" />
-              )}
-              <span>{project.links[0].label}</span>
-            </a>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {project.collaboration && (
+              <span className="mr-1 hidden text-xs text-zinc-500 sm:inline">
+                with <a href={project.collaboration.collaboratorUrl} target="_blank" rel="noopener noreferrer" className="text-zinc-300 transition hover:text-white">{project.collaboration.collaboratorName}</a>
+              </span>
+            )}
+            {project.links?.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 text-[11px] font-medium transition-colors ${link.type === 'live' ? 'border-white/15 bg-white text-zinc-950 hover:bg-zinc-200' : 'border-zinc-800 bg-zinc-900/70 text-zinc-300 hover:border-zinc-600 hover:text-white'}`}
+              >
+                {link.type === 'github' ? <Github className="h-3.5 w-3.5" /> : <ExternalLink className="h-3.5 w-3.5" />}
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
 
-        {/* Title & Short Description with Logo Anchor */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-2.5 sm:space-y-3 flex-1">
-            <h3 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white font-display">
+        <div className="grid items-center gap-6 sm:gap-8 md:grid-cols-[minmax(0,1fr)_180px] lg:grid-cols-[minmax(0,1fr)_210px]">
+          <div>
+            <h3 className="font-display text-3xl font-medium tracking-tight text-white sm:text-4xl lg:text-[2.8rem]">
               {project.title}
             </h3>
-            {project.storyQuote && !isExpanded && (
-              <blockquote className={`border-l-2 pl-3.5 sm:pl-4 py-0.5 ${theme.quoteBorder}`}>
-                <p className="text-xs sm:text-base text-zinc-300 font-display italic">
-                  &ldquo;{project.storyQuote}&rdquo;
-                </p>
-              </blockquote>
-            )}
-            <p className="text-xs sm:text-[14px] text-zinc-400 font-normal leading-relaxed max-w-2xl">
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-[15px]">
               {project.shortDescription}
             </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {project.techStack.slice(0, 5).map((tech) => (
+                <span key={tech} className="rounded-full border border-white/[0.07] bg-white/[0.025] px-2.5 py-1 text-[10px] text-zinc-400 sm:text-[11px]">{tech}</span>
+              ))}
+              {project.techStack.length > 5 && <span className="px-1 py-1 text-[10px] text-zinc-600 sm:text-[11px]">+{project.techStack.length - 5}</span>}
+            </div>
           </div>
 
-          {/* Project Logo Visual Thumbnail */}
           {project.logoUrl && (
-            <div className={`w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-2xl p-2 shrink-0 border bg-zinc-950/80 shadow-md flex items-center justify-center ${theme.iconBg}`}>
+            <div className={`hidden aspect-square overflow-hidden rounded-2xl border bg-zinc-950/80 shadow-inner md:block ${theme.iconBg}`}>
               <img
                 src={project.logoUrl}
                 alt={`${project.title} logo`}
-                className="w-full h-full object-contain"
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             </div>
           )}
         </div>
 
-        {/* Visual / Architecture Ribbon */}
-        {project.visualMeta && (
-          <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-zinc-950/80 border border-zinc-800/80 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
-            <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 border p-1.5 overflow-hidden ${theme.iconBg}`}>
-                <img
-                  src={project.logoUrl}
-                  alt={`${project.title} mark`}
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                />
-              </div>
-              <div className="min-w-0">
-                <span className="text-xs font-mono text-zinc-200 font-medium block truncate">
-                  {project.visualMeta.tagline}
-                </span>
-                <span className="text-[10.5px] sm:text-[11px] font-mono text-zinc-500 block truncate">
-                  {project.visualMeta.subline}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {project.visualMeta.pills.map((pill) => (
-                <span
-                  key={pill}
-                  className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded bg-zinc-900 border border-zinc-800 text-[10px] sm:text-[11px] font-mono text-zinc-300"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Expand / Collapse Control */}
-        <div className="pt-1 sm:pt-2 flex items-center justify-between">
+        <div className="mt-6 flex items-center justify-between border-t border-zinc-800/70 pt-3">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className={`group flex items-center gap-2 text-xs font-mono font-medium transition-colors cursor-pointer outline-none min-h-[44px] py-1 touch-manipulation ${theme.buttonText}`}
             aria-expanded={isExpanded}
           >
-            <span>{isExpanded ? `Collapse ${project.title}` : `Expand ${project.title} details`}</span>
+            <span>{isExpanded ? 'Hide project details' : 'More about this project'}</span>
             {isExpanded ? (
               <ChevronUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
             ) : (
@@ -221,9 +157,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             )}
           </button>
 
-          <span className="text-[11px] font-mono text-zinc-600 hidden sm:inline">
-            {isExpanded ? 'Structured card grid view' : 'Click to explore project breakdown'}
-          </span>
+          <span className="hidden text-[11px] text-zinc-600 sm:inline">Story, approach &amp; details</span>
         </div>
       </div>
 

@@ -148,9 +148,9 @@ const RiveCat: React.FC<RiveCatProps> = ({
     };
 
     // --------------------------------------------------------
-    // Mouse enters Cats card
+    // A mouse or touch pointer enters the Cats card.
     // --------------------------------------------------------
-    const handleMouseEnter = (event: MouseEvent) => {
+    const handlePointerEnter = (event: PointerEvent) => {
       isPointerInside.current = true;
 
       latestPos.current = {
@@ -201,9 +201,9 @@ const RiveCat: React.FC<RiveCatProps> = ({
     };
 
     // --------------------------------------------------------
-    // Mouse moves inside Cats card
+    // Coalesce pointer movement to one Rive update per animation frame.
     // --------------------------------------------------------
-    const handleMouseMove = (event: MouseEvent) => {
+    const handlePointerMove = (event: PointerEvent) => {
       if (!isPointerInside.current) return;
 
       latestPos.current = {
@@ -218,9 +218,9 @@ const RiveCat: React.FC<RiveCatProps> = ({
     };
 
     // --------------------------------------------------------
-    // Mouse leaves Cats card
+    // Reset the gaze when a pointer leaves or a touch is cancelled.
     // --------------------------------------------------------
-    const handleMouseLeave = () => {
+    const handlePointerLeave = () => {
       isPointerInside.current = false;
       latestPos.current = null;
 
@@ -244,9 +244,10 @@ const RiveCat: React.FC<RiveCatProps> = ({
       );
     };
 
-    card.addEventListener('mouseenter', handleMouseEnter);
-    card.addEventListener('mousemove', handleMouseMove);
-    card.addEventListener('mouseleave', handleMouseLeave);
+    card.addEventListener('pointerenter', handlePointerEnter);
+    card.addEventListener('pointermove', handlePointerMove);
+    card.addEventListener('pointerleave', handlePointerLeave);
+    card.addEventListener('pointercancel', handlePointerLeave);
 
     return () => {
       if (rafId.current !== null) {
@@ -254,65 +255,40 @@ const RiveCat: React.FC<RiveCatProps> = ({
       }
 
       card.removeEventListener(
-        'mouseenter',
-        handleMouseEnter
+        'pointerenter',
+        handlePointerEnter
       );
 
       card.removeEventListener(
-        'mousemove',
-        handleMouseMove
+        'pointermove',
+        handlePointerMove
       );
 
       card.removeEventListener(
-        'mouseleave',
-        handleMouseLeave
+        'pointerleave',
+        handlePointerLeave
       );
+      card.removeEventListener('pointercancel', handlePointerLeave);
     };
   }, [isHobbiesVisible, rive, cardRef]);
 
   return (
     <div
       className="
-        absolute
-        bottom-3
-        right-3
-        xs:bottom-4
-        xs:right-4
-        sm:bottom-6
-        sm:right-6
-        w-[115px]
-        h-[115px]
-        xs:w-[130px]
-        xs:h-[130px]
-        sm:w-[150px]
-        sm:h-[150px]
-        rounded-2xl
-        sm:rounded-3xl
-        overflow-hidden
-        border
-        border-amber-500/30
-        sm:border-amber-500/40
-        shadow-[0_8px_24px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]
-        flex
-        items-center
-        justify-center
-        select-none
-        z-0
-        group-hover:border-amber-500/60
-        transition-all
-        duration-300
+        absolute bottom-4 right-4 z-0
+        h-[clamp(7rem,22vw,10rem)] w-[clamp(7rem,22vw,10rem)]
+        overflow-hidden rounded-[1.4rem] sm:rounded-[1.7rem]
+        border border-amber-400/25 bg-[radial-gradient(circle_at_50%_38%,rgba(245,158,11,0.12),rgba(12,12,14,0.2)_68%)]
+        shadow-[0_12px_32px_rgba(0,0,0,0.38)]
+        flex items-center justify-center select-none
+        group-hover:border-amber-400/45 transition-colors duration-300
       "
       aria-hidden="true"
     >
       <div
         ref={containerRef}
         className="
-          w-[155px]
-          h-[155px]
-          xs:w-[175px]
-          xs:h-[175px]
-          sm:w-[200px]
-          sm:h-[200px]
+          h-[135%] w-[135%]
           shrink-0
           pointer-events-none
           flex
@@ -493,14 +469,14 @@ const CatsCard: React.FC<CatsCardProps> = ({
           relative
           z-10
           pointer-events-none
-          max-w-[200px]
-          xs:max-w-[220px]
-          sm:max-w-[260px]
+          max-w-[18rem]
+          pr-[5.5rem]
+          sm:max-w-[17rem]
+          md:pr-[6.5rem]
+          xl:pr-0
         "
       >
-        I love cats. That’s basically the
-        <br />
-        whole explanation.
+        I love cats. That’s basically the whole explanation.
       </p>
     </article>
   );
@@ -541,15 +517,15 @@ export const HobbiesSection: React.FC = () => {
       className="
         scroll-mt-24
         sm:scroll-mt-28
-        py-16
-        sm:py-28
+        py-20
+        sm:py-24
+        lg:py-28
         px-5
         sm:px-8
         lg:px-12
-        max-w-5xl
+        max-w-6xl
         mx-auto
         w-full
-        select-none
         relative
         overflow-hidden
       "
@@ -568,7 +544,7 @@ export const HobbiesSection: React.FC = () => {
         "
       />
 
-      <div className="space-y-8 sm:space-y-12">
+      <div className="space-y-9 sm:space-y-12">
         {/* ====================================================
             SECTION HEADER
             ==================================================== */}

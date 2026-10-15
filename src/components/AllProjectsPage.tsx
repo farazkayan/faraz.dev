@@ -52,12 +52,12 @@ export const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ onBack }) => {
           ==================================================== */}
       <main className="flex-1 max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 py-12 sm:py-20 lg:py-24 space-y-12 sm:space-y-16 w-full">
         {/* Destination Header with Faraz's Authentic Voice */}
-        <div className="space-y-4 border-b border-zinc-800/80 pb-8 sm:pb-12 max-w-3xl">
+        <div className="space-y-4 border-b border-zinc-800/80 pb-8 sm:pb-10 max-w-3xl">
           <div className="flex items-center gap-2 text-xs font-mono text-purple-400">
             <span>04</span>
             <span className="text-zinc-700">/</span>
             <span className="uppercase tracking-widest font-semibold">
-              Project Library
+              Project Archive
             </span>
           </div>
 
@@ -80,7 +80,7 @@ export const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ onBack }) => {
             VERTICAL STACK OF SUBSTANTIAL PROJECT DESTINATION CARDS
             Elevated, lighter charcoal surfaces (#131317 / #16161b)
             ==================================================== */}
-        <div className="space-y-8 sm:space-y-12">
+        <div className="space-y-7 sm:space-y-9">
           {projects.map((project, index) => (
             <ProjectDestinationCard
               key={project.id}
@@ -191,14 +191,14 @@ const ProjectDestinationCard: React.FC<ProjectDestinationCardProps> = ({
     <article
       className={`
         rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden
-        bg-[#131317] ${theme.border} ${theme.glow}
+        bg-[#0c0c0e] ${theme.border} ${theme.glow}
       `}
     >
       {/* ====================================================
           MAIN SUBSTANTIAL PROJECT SURFACE
           Elevated charcoal container with generous editorial layout
           ==================================================== */}
-      <div className="p-6 sm:p-9 lg:p-12 space-y-7 sm:space-y-9">
+      <div className="p-5 sm:p-8 lg:p-9 space-y-6 sm:space-y-8">
         {/* Top Header Meta Row */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800/80 pb-4 sm:pb-5">
           <div className="flex items-center gap-3">
@@ -238,7 +238,7 @@ const ProjectDestinationCard: React.FC<ProjectDestinationCardProps> = ({
         {/* Core Project Presentation: Two Column Responsive Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
           {/* Column 1: Prominent Logo + Quick Snapshot (4 Cols) */}
-          <div className="lg:col-span-4 flex flex-col items-start space-y-4">
+          <div className="lg:col-span-4 flex flex-col items-start space-y-3">
             {/* Project Logo Visual Box */}
             <div
               className={`w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border bg-[#181820] shadow-lg flex items-center justify-center shrink-0 ${theme.logoBg}`}
@@ -276,7 +276,7 @@ const ProjectDestinationCard: React.FC<ProjectDestinationCardProps> = ({
           </div>
 
           {/* Column 2: Editorial Description, Story, and Actions (8 Cols) */}
-          <div className="lg:col-span-8 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-8 space-y-5">
             <div className="space-y-2">
               <h2 className="text-3xl xs:text-4xl sm:text-5xl font-medium tracking-tight text-white font-display">
                 {project.title}

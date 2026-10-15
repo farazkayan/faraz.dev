@@ -37,7 +37,7 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative scroll-mt-24 sm:scroll-mt-28 py-16 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12 max-w-4xl mx-auto w-full select-none"
+      className="relative scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 max-w-5xl mx-auto w-full"
     >
       {/* Subtle background atmosphere */}
       <div
@@ -45,7 +45,7 @@ export const ContactSection: React.FC = () => {
         aria-hidden="true"
       />
 
-      <div className="flex flex-col items-center text-center space-y-8 sm:space-y-12">
+      <div className="flex flex-col items-center text-center space-y-7 sm:space-y-9">
         {/* ====================================================
             EYEBROW / THE END LABEL
             ==================================================== */}
